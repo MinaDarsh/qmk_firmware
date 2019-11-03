@@ -28,6 +28,7 @@ enum layers {
 enum custom_keycodes {
     QWERTY = SAFE_RANGE,
     COLEMAK,
+    KC_OWO,
     FUNCTION,
     ADJUST
 };
@@ -108,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     *    .-----------------------------------------------------------|-----------|
     *    |   |   |   |   |   |   |   |   |   |   |   |   |   |       |   |   |   |
     *    |-----------------------------------------------------------|-----------|
-    *    |     |QWR|   |   |   |   |   |   |   |   |   |   |   |     |   |   |   |
+    *    |     |QWR|   |   |   |   |   |   |   |OWO|   |   |   |     |   |   |   |
     *    |-----------------------------------------------------------|-----------|
     *    |      |   |   |   |   |   |   |   |   |   |   |   |        |           |
     *    |-----------------------------------------------------------|-----------|
@@ -120,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ADJUST] = LAYOUT_tkl_ansi_wkl(
         RESET,            XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG, RGB_RMOD,RGB_MOD, RGB_HUD, RGB_HUI, RGB_SAD, RGB_SAI, RGB_VAD, RGB_VAI,          XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, QWERTY , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, QWERTY , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_OWO , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX,                   XXXXXXX, 
         XXXXXXX,          XXXXXXX,                            XXXXXXX,                                     _______,          _______,          XXXXXXX, XXXXXXX, XXXXXXX),
@@ -145,6 +146,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case COLEMAK:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_COLEMAK);
+      }
+      return false;
+      break;
+    case KC_OWO:
+      if (record->event.pressed) {
+        SEND_STRING ("OWO\n");
+        wait_ms(500);
+        SEND_STRING ("What's this?\n");
       }
       return false;
       break;
