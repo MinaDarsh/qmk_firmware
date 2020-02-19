@@ -5,10 +5,17 @@
 #endif
 
 #ifdef MOUSEKEY_ENABLE
-  #define MOUSEKEY_DELAY 100
-  #define MOUSEKEY_INTERVAL 16
-  #define MOUSEKEY_MAX_SPEED 14
-  #define MOUSEKEY_TIME_TO_MAX 50
-  #define MOUSEKEY_WHEEL_MAX_SPEED 8
-  #define MOUSEKEY_WHEEL_TIME_TO_MAX 40
+  #define MK_3_SPEED
+  #define MK_C_OFFSET_0 1
+  #define MK_C_INTERVAL_0 32
+  #define MK_C_OFFSET_1 4
+  #define MK_C_INTERVAL_1 16
+  #define MK_C_OFFSET_2 32
+  #define MK_C_INTERVAL_2 16
+  #define MK_W_OFFSET_0 1
+  #define MK_W_INTERVAL_0 360
+  #define MK_W_OFFSET_1 1
+  #define MK_W_INTERVAL_1 120
+  #define MK_W_OFFSET_2 1
+  #define MK_W_INTERVAL_2 20
 #endif

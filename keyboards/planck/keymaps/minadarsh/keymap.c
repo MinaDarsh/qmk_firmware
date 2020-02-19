@@ -38,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   D  |   V  |   M  |   H  |   ,  |   .  |   /  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      | Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
+ * |DISBLD| Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
 [_COLEMAK] = LAYOUT_planck_grid(
@@ -86,20 +86,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
- * |Reset |      |      |MSWHUP|      |      |      |MSBTN1|MSMVUP|MSBTN2|      |BRI_UP|
+ * |Reset |DISBLD|DISBLD|MSWHUP|DISBLD|DISBLD|DISBLD|MSBTN1|MSMVUP|MSBTN2|MSSPD0|BRI_UP|
  * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |      |MSWHLF|MSWHDN|MSWHRT|      |      |MSMVLF|MSMVDN|MSMVRT|      |BRIDWN|
+ * |DISBLD|DISBLD|MSWHLF|MSWHDN|MSWHRT|DISBLD|DISBLD|MSMVLF|MSMVDN|MSMVRT|MSSPD1|BRIDWN|
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |MSBTN3|      |      |      |MSBTN4|MSMVDN|MSBTN5|      |      |
+ * |      |DISBLD|DISBLD|MSBTN3|DISBLD|DISBLD|DISBLD|MSBTN4|MSMVDN|MSBTN5|MSSPD2|DISBLD|
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
+ * |      |      |DISBLD|      |      |DISBLD DISBLD|      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
+ * Disabling most keys so they can't be accidently pressed when performing mouse actions.
  */
 [_ADJUST] = LAYOUT_planck_grid(
-    RESET,   _______, _______, KC_WH_U, _______, _______, _______, KC_BTN1, KC_MS_U, KC_BTN2, _______, KC_BRIU,
-    _______, _______, KC_WH_L, KC_WH_D, KC_WH_R, _______, _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, KC_BRID,
-    _______, _______, _______, KC_BTN3, _______, _______, _______, KC_BTN4, KC_MS_D, KC_BTN5, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    RESET,   KC_NO,   KC_NO,   KC_WH_U, KC_NO,   KC_NO,   KC_NO,   KC_BTN1, KC_MS_U, KC_BTN2, KC_ACL0, KC_BRIU,
+    KC_NO,   KC_NO,   KC_WH_L, KC_WH_D, KC_WH_R, KC_NO,   KC_NO,   KC_MS_L, KC_MS_D, KC_MS_R, KC_ACL1, KC_BRID,
+    _______, KC_NO,   KC_NO,   KC_BTN3, KC_NO,   KC_NO,   KC_NO,   KC_BTN4, KC_MS_D, KC_BTN5, KC_ACL2, KC_NO,
+    _______, _______, KC_NO,   _______, _______, KC_NO,   KC_NO,   _______, _______, _______, _______, _______
 )
 
 };
