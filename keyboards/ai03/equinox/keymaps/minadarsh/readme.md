@@ -21,7 +21,8 @@ _Colemak-DH, Backspace is where Capslock normally is, but if using_
 _a 1.25U Enter and 1.5U Backspace, it can be in the top-right too._
 _If using split Space, all will be space, so change that too for your own map._
 
-Note: I choose not to layer some of the more commonly used keys, dash, slash and quote. These can be accessed by double-tapping the keys that you see in the keymap that have their Tap Dance key in parenthesis. Holding Shift will send their shifted key. So for example, if you want to type a question mark, hold Shift, and double-tap dot fast enough. (Tapping Term can be set in `config.h`)
+Note: I chose not to layer some of the more commonly used keys, dash, slash and quote. These can be accessed by double-tapping the keys that you see in the keymap that have their Tap Dance key in parenthesis. Holding Shift will send their shifted key. So for example, if you want to type a question mark, hold Shift, and double-tap dot fast enough. (Tapping Term can be set in `config.h`)
+
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
@@ -54,6 +55,7 @@ _and Windows key is disabled, just in case._
 
 You may have noticed two Function keys in the keymap overviews above, they both do the same thing on their own, pressing either of them will switch to the _symbols_ layer as long as they're held, pressing them both will switch to the _adjust_ layer as long as they're both held or at least the last key of the two pressed is held. (I just felt like adding that last detail, QMK works funny like that.) I wanted to stick to just one Function key, but haven't found out how yet.
 
+
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
 │ Escape │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │ BkSp │
@@ -84,5 +86,5 @@ _Blank Alpha keys and keys market N/A are not transparent here, they don't do an
 
 ## Additional notes
 
-- Make sure when making your own version based on my keymap to have `TAP_DANCE = yes` in your `rules.mk` file, else the double-tap keys on the persistent layers won't work, or to remove the Tap Dance buttons entirely.
+- Make sure when making your own version based on my keymap to have `TAP_DANCE = yes` in your `rules.mk` file and `#define TAPPING_TERM 175` in your `config.h` (the number `175` can be changed to anything you want and is in milliseconds), else the double-tap keys on the persistent layers won't work, or to remove the Tap Dance buttons entirely.
 - `config.h` undefines `PRODUCT` and then redefines it with my own, this is so that when you look up the device in (Windows) Devices on your computer, it'll have a nice personalized name. You can change this in your own map to make your board also have a unique name. `\x0027` is used to type an apostrophe.
