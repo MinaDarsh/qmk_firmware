@@ -19,7 +19,6 @@ enum equinox_layers {
   _COLEMAK,
   _QWERTY,
   _GAMING,
-  _SOUNDS,
   _SYMBOL,
   _ADJUST
 };
@@ -28,7 +27,6 @@ enum equinox_keycodes {
   COLEMAK = SAFE_RANGE,
   QWERTY,
   GAMING,
-  SOUNDS,
   SYMBOL,
   ADJUST
 };
@@ -101,24 +99,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, XXXXXXX, _______,          _______,          _______,      _______,     _______, XXXXXXX, XXXXXXX
   ),
 
-/* Unused Function keys for use with AutoHotkey
- * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │        │ F13 │ F14 │ F15 │ F16 │ F17 │ F18 │     │     │     │     │      │
- * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │         │ F19 │ F20 │ F21 │ F22 │ F23 │ F24 │     │     │     │     ┋     │
- * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋     │     │     │     │     │     │     │     │     │     ┋        │
- * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
- * │      │     │      │              ┋     ┋              │      │     │      │
- * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
- */
-  [_SOUNDS] = LAYOUT_all( /* Unused Function Keys */
-    XXXXXXX, KC_F13,  KC_F14,  KC_F15,  KC_F16,  KC_F17,  KC_F18,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    _______, XXXXXXX, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, XXXXXXX, XXXXXXX
-  ),
-
 /*
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
  * │  ESC   │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │      │
@@ -141,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
  * │        │ QWT │     │     │Reset│     │     │Next │Vol -│Vol +│Prev │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │CAPS LOCK│     │SOUND│     │     │     │     │Left │Down │ Up  │Right┋Play │
+ * │CAPS LOCK│     │     │     │     │     │     │Left │Down │ Up  │Right┋Play │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
  * │      ┋     │     │     │ COL │     │     │     │     │Home │ End ┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
@@ -150,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
   [_ADJUST] = LAYOUT_all( /* Board Functions and extra keycodes */
     XXXXXXX, QWERTY,  XXXXXXX, XXXXXXX, RESET,   XXXXXXX, XXXXXXX, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
-    KC_CAPS, XXXXXXX, SOUNDS,  XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_MPLY,
+    KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_MPLY,
     _______, _______, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  XXXXXXX,
     _______, _______, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, _______, _______
   )
@@ -173,12 +153,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case GAMING:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_GAMING);
-      }
-      return false;
-      break;
-    case SOUNDS:
-      if (record->event.pressed) {
-        set_single_persistent_default_layer(_SOUNDS);
       }
       return false;
       break;
