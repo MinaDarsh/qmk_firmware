@@ -70,11 +70,11 @@ _Blank keys are transparent thus using keys on the previous layer._
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
-│  N/A   │ QWT │     │     │Reset│     │     │Next │Vol -│Vol +│Prev │ BkSp │
+│  N/A   │ Qwt │     │     │Reset│     │     │Next │Vol -│Vol +│Prev │ BkSp │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
-│CAPS LOCK│     │     │     │     │     │     │Left │Down │ Up  │Right┋Play │
+│CAPS LOCK│     │     │     │     │Game │     │Left │Down │ Up  │Right┋Play │
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│Shift ┋     │     │     │ COL │     │     │     │     │Home │ End ┋  Shift │
+│Shift ┋     │     │     │ Col │     │     │     │     │Home │ End ┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
 │ Ctrl │     │ Alt  │     N/A      ┋ N/A ┋      N/A     │      │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
