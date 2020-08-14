@@ -131,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT_all( /* Board Functions and extra keycodes */
     XXXXXXX, QWERTY,  XXXXXXX, XXXXXXX, RESET,   XXXXXXX, XXXXXXX, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
     KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_MPLY,
-    _______, _______, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  XXXXXXX,
+    _______, _______, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  _______,
     _______, _______, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, _______, _______
   )
 };

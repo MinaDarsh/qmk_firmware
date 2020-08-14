@@ -14,7 +14,7 @@ It features Persistent layers for Colemak-DH (default) and two Qwerty layouts, o
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │Shift ┋ Fn  │  Z  │  X  │  C  │  D  │  V  │  M  │  H  │ ,(-)│ .(/)┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│ Ctrl │     │ LAlt │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
+│ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
 _Colemak-DH, Backspace is where Capslock normally is, but if using_
@@ -31,7 +31,7 @@ Note: I choose not to layer some of the more commonly used keys, dash, slash and
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │Shift ┋ Fn  │  Z  │  X  │  C  │  V  │  B  │  N  │  M  │ ,(-)│ .(/)┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│ Ctrl │     │ LAlt │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
+│ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
 _Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout._
@@ -44,7 +44,7 @@ _Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout.
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │Shift ┋ Fn  │  Z  │  X  │  C  │  V  │  B  │  N  │  M  │ ,(-)│ .(/)┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│ Ctrl │     │ LAlt │    Space     ┋Space┋     Space    │  Fn  │     │      │
+│ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ N/A  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
 _Qwerty, but for gaming, left Backspace is now Capslock once more as some games use this,_
@@ -56,13 +56,13 @@ You may have noticed two Function keys in the keymap overviews above, they both 
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
-│ Escape │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │      │
+│ Escape │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │ BkSp │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
-│  Grave  │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  \  │  =  │  [  │  ]  ┋     │
+│  Grave  │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  \  │  =  │  [  │  ]  ┋Enter│
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│      ┋Adjst│ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │ Del │Pg Up│Pg Dn┋        │
+│Shift ┋Adjst│ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │ Del │Pg Up│Pg Dn┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│      │     │      │              ┋     ┋              │Adjust│     │      │
+│ Ctrl │     │ Alt  │              ┋     ┋              │Adjust│     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
 _Symbols layer, though it mostly offers numbers and F-row keys, etc._
@@ -70,14 +70,19 @@ _Blank keys are transparent thus using keys on the previous layer._
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
-│  N/A   │ QWT │     │     │Reset│     │     │Next │Vol -│Vol +│Prev │      │
+│  N/A   │ QWT │     │     │Reset│     │     │Next │Vol -│Vol +│Prev │ BkSp │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
 │CAPS LOCK│     │     │     │     │     │     │Left │Down │ Up  │Right┋Play │
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│      ┋     │     │     │ COL │     │     │     │     │Home │ End ┋  N/A   │
+│Shift ┋     │     │     │ COL │     │     │     │     │Home │ End ┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│      │     │      │     N/A      ┋ N/A ┋      N/A     │      │     │      │
+│ Ctrl │     │ Alt  │     N/A      ┋ N/A ┋      N/A     │      │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
 _Adjust layer, the rest of the features are here, including media controls and arrows._
-_Mods marked with N/A are not transparent, as are all blank Alphas._
+_Blank Alpha keys and keys market N/A are not transparent here, they don't do anything when pressed._
+
+## Additional notes
+
+- Make sure when making your own version based on my keymap to have `TAP_DANCE = yes` in your `rules.mk` file, else the double-tap keys on the persistent layers won't work, or to remove the Tap Dance buttons entirely.
+- `config.h` undefines `PRODUCT` and then redefines it with my own, this is so that when you look up the device in (Windows) Devices on your computer, it'll have a nice personalized name. You can change this in your own map to make your board also have a unique name. `\x0027` is used to type an apostrophe.
