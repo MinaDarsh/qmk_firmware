@@ -8,7 +8,7 @@ It features Persistent layers for Colemak-DH (default) and two Qwerty layouts, o
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
-│  Tab   │  Q  │  W  │  F  │  P  │  B  │  J  │  L  │  U  │  Y  │ ;(')│ BkSp │
+│  Tab   │  Q  │  W  │  F  │  P  │  B  │  J  │  L  │  U  │  Y  │ '(;)│ BkSp │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
 │Backspace│  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  ┋Enter│
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
@@ -21,14 +21,14 @@ _Colemak-DH, Backspace is where Capslock normally is, but if using_
 _a 1.25U Enter and 1.5U Backspace, it can be in the top-right too._
 _If using split Space, all will be space, so change that too for your own map._
 
-Note: I chose not to layer some of the more commonly used keys, dash, slash and quote. These can be accessed by double-tapping the keys that you see in the keymap that have their Tap Dance key in parenthesis. Holding Shift will send their shifted key. So for example, if you want to type a question mark, hold Shift, and double-tap dot fast enough. (Tapping Term can be set in `config.h`)
+Note: I chose not to layer some of the more commonly used keys, dash, slash and colon. These can be accessed by double-tapping the keys that you see in the keymap that have their Tap Dance key in parenthesis. Holding Shift will send their shifted key. So for example, if you want to type a question mark, hold Shift, and double-tap dot fast enough. (Tapping Term can be set in `config.h`)
 
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
 │  Tab   │  Q  │  W  │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │ BkSp │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
-│Backspace│  A  │  S  │  D  │  F  │  G  │  H  │  J  │  K  │  L  │ ;(')┋Enter│
+│Backspace│  A  │  S  │  D  │  F  │  G  │  H  │  J  │  K  │  L  │ '(;)┋Enter│
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │Shift ┋ Fn  │  Z  │  X  │  C  │  V  │  B  │  N  │  M  │ ,(-)│ .(/)┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
@@ -41,7 +41,7 @@ _Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout.
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
 │  Tab   │  Q  │  W  │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │ BkSp │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
-│Capslock │  A  │  S  │  D  │  F  │  G  │  H  │  J  │  K  │  L  │ ;(')┋Enter│
+│Capslock │  A  │  S  │  D  │  F  │  G  │  H  │  J  │  K  │  L  │ '(;)┋Enter│
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │Shift ┋ Fn  │  Z  │  X  │  C  │  V  │  B  │  N  │  M  │ ,(-)│ .(/)┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
