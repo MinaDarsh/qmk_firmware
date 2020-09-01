@@ -44,10 +44,10 @@ enum {
   6F7,
   7F8,
   8F9,
-  910,
-  011,
-  E12,
-  B12
+  9F0,
+  0F1,
+  EF2,
+  BF2
 };
 
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -63,10 +63,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [6F7] = ACTION_TAP_DANCE_DOUBLE(KC_6, KC_F7),
   [7F8] = ACTION_TAP_DANCE_DOUBLE(KC_7, KC_F8),
   [8F9] = ACTION_TAP_DANCE_DOUBLE(KC_8, KC_F9),
-  [910] = ACTION_TAP_DANCE_DOUBLE(KC_9, KC_F10),
-  [011] = ACTION_TAP_DANCE_DOUBLE(KC_0, KC_F11),
-  [E12] = ACTION_TAP_DANCE_DOUBLE(KC_ENT, KC_F12),
-  [B12] = ACTION_TAP_DANCE_DOUBLE(KC_BSPC, KC_F12)
+  [9F0] = ACTION_TAP_DANCE_DOUBLE(KC_9, KC_F10),
+  [0F1] = ACTION_TAP_DANCE_DOUBLE(KC_0, KC_F11),
+  [EF2] = ACTION_TAP_DANCE_DOUBLE(KC_ENT, KC_F12),
+  [BF2] = ACTION_TAP_DANCE_DOUBLE(KC_BSPC, KC_F12)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -137,8 +137,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_SYMBOL] = LAYOUT_all( /* Symbol Keys */
-    TD(EF1), TD(1F2), TD(2F3), TD(3F4), TD(4F5), TD(5F6), TD(6F7), TD(7F8), TD(8F9), TD(910), TD(011), TD(B12),
-    KC_GRV,  _______, _______, _______, _______, _______, _______, KC_BSLS, KC_EQL,  KC_LBRC, KC_RBRC, TD(E12),
+    TD(EF1), TD(1F2), TD(2F3), TD(3F4), TD(4F5), TD(5F6), TD(6F7), TD(7F8), TD(8F9), TD(9F0), TD(0F1), TD(BF2),
+    KC_GRV,  _______, _______, _______, _______, _______, _______, KC_BSLS, KC_EQL,  KC_LBRC, KC_RBRC, TD(EF2),
     _______, ADJUST,  _______, _______, _______, _______, _______, _______, KC_DEL,  KC_PGUP, KC_PGDN, _______,
     _______, _______, _______,          _______,          _______,     _______,      ADJUST,  _______, _______
   ),
