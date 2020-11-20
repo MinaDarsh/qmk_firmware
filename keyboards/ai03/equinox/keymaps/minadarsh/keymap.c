@@ -36,14 +36,7 @@ enum {
   LYR
 };
 
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [DSL] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_SLSH),
-  [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
-  [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
-  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, layers_finished, layers_reset, 250)
-};
-
-void layers_finished(qk_tap_dance_action_t *state, void *user_data) {
+void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     layer_on(_SYMBOL);
   }
@@ -52,7 +45,7 @@ void layers_finished(qk_tap_dance_action_t *state, void *user_data) {
   }
 }
 
-void layers_reset(qk_tap_dance_action_t *state, void *user_data) {
+void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     layer_off(_SYMBOL);
   }
@@ -60,6 +53,13 @@ void layers_reset(qk_tap_dance_action_t *state, void *user_data) {
     layer_off(_ADJUST);
   }
 }
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [DSL] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_SLSH),
+  [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
+  [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
+  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, layers_finished, layers_reset, 250)
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT), KC_BSPC,
     KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
     KC_LSFT, TD(LYR), KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_M,    KC_H,    TD(CMN), TD(DSL), KC_RSFT,
-    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, RESET
+    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, KC_RGUI
   ),
 
 /* Qwerty
