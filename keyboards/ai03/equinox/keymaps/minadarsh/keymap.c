@@ -26,9 +26,7 @@ enum equinox_layers {
 enum equinox_keycodes {
   COLEMAK = SAFE_RANGE,
   QWERTY,
-  GAMING,
-  SYMBOL,
-  ADJUST
+  GAMING
 };
 
 enum {
@@ -42,7 +40,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [DSL] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_SLSH),
   [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
   [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
-  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, layer_finished, layers_reset, 250)
+  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, layers_finished, layers_reset, 250)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -173,22 +171,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case GAMING:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_GAMING);
-      }
-      return false;
-      break;
-    case SYMBOL:
-      if (record->event.pressed) {
-        layer_on(_SYMBOL);
-      } else {
-        layer_off(_SYMBOL);
-      }
-      return false;
-      break;
-    case ADJUST:
-      if (record->event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
       }
       return false;
       break;
