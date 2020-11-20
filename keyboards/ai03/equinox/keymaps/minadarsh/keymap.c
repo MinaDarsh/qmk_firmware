@@ -43,6 +43,24 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [LYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, layers_finished, layers_reset, 250)
 };
 
+void layers_finished(qk_tap_dance_action_t *state, void *user_data) {
+  if (state->count == 1) {
+    layer_on(_SYMBOL);
+  }
+  else if (state->count == 2) {
+    layer_on(_ADJUST);
+  }
+}
+
+void layers_reset(qk_tap_dance_action_t *state, void *user_data) {
+  if (state->count == 1) {
+    layer_off(_SYMBOL);
+  }
+  else if (state->count == 2) {
+    layer_off(_ADJUST);
+  }
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Colemak-DH
@@ -135,24 +153,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, _______, _______
   )
 };
-
-void layers_finished(qk_tap_dance_action_t *state, void *user_data) {
-  if (state->count == 1) {
-    layer_on(_SYMBOL);
-  }
-  else if (state->count == 2) {
-    layer_on(_ADJUST);
-  }
-}
-
-void layers_reset(qk_tap_dance_action_t *state, void *user_data) {
-  if (state->count == 1) {
-    layer_off(_SYMBOL);
-  }
-  else if (state->count == 2) {
-    layer_off(_ADJUST);
-  }
-}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
