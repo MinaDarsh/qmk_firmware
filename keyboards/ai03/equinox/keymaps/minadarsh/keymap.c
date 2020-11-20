@@ -34,13 +34,15 @@ enum equinox_keycodes {
 enum {
   DSL = 0,
   CMN,
-  CQT
+  CQT,
+  LYR
 };
 
 qk_tap_dance_action_t tap_dance_actions[] = {
   [DSL] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_SLSH),
   [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
-  [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN)
+  [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
+  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, layer_finished, layers_reset, 250)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -59,8 +61,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_COLEMAK] = LAYOUT_all( /* Colemak-DH Base */
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT), KC_BSPC,
     KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
-    KC_LSFT, SYMBOL,  KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_M,    KC_H,    TD(CMN), TD(DSL), KC_RSFT,
-    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      SYMBOL,  XXXXXXX, KC_RGUI
+    KC_LSFT, TD(LYR), KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_M,    KC_H,    TD(CMN), TD(DSL), KC_RSFT,
+    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, RESET
   ),
 
 /* Qwerty
@@ -113,8 +115,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_SYMBOL] = LAYOUT_all( /* Symbol Keys */
     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
     KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_BSLS, KC_EQL,  KC_LBRC, KC_RBRC, _______,
-    _______, ADJUST,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_DEL,  KC_PGUP, KC_PGDN, _______,
-    _______, _______, _______,          _______,          _______,     _______,      ADJUST,  _______, _______
+    _______, _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_DEL,  KC_PGUP, KC_PGDN, _______,
+    _______, _______, _______,          _______,          _______,     _______,      _______, _______, _______
   ),
 
 /* Keeping this layer non-transparent.
@@ -135,6 +137,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, _______, _______
   )
 };
+
+void layers_finished(qk_tap_dance_action_t *state, void *user_data) {
+  if (state->count == 1) {
+    layer_on(_SYMBOL);
+  }
+  else if (state->count == 2) {
+    layer_on(_ADJUST);
+  }
+}
+
+void layers_reset(qk_tap_dance_action_t *state, void *user_data) {
+  if (state->count == 1) {
+    layer_off(_SYMBOL);
+  }
+  else if (state->count == 2) {
+    layer_off(_ADJUST);
+  }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
