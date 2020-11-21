@@ -4,7 +4,7 @@ A personal keymap for the ION x Ai03 Equinox WKL, using split Shifts, full Space
 
 ## Persistent layers
 
-It features Persistent layers for Colemak-DH (default) and two Qwerty layouts, one normal, and one more optimized for gaming. These layers remain set even after un-plugging your keyboard.
+It features Persistent layers for Colemak-DHk (default) and two Qwerty layouts, one normal, and one more optimized for gaming. These layers remain set even after un-plugging your keyboard. Due to my preference and to keep the keys somewhat consistent on the physical board, the Angle Mod is also applied to the Qwerty layouts.
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
@@ -12,7 +12,7 @@ It features Persistent layers for Colemak-DH (default) and two Qwerty layouts, o
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
 │Backspace│  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  ┋Enter│
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│Shift ┋ Fn  │  Z  │  X  │  C  │  D  │  V  │  M  │  H  │ ,(-)│ .(/)┋  Shift │
+│Shift ┋  Z  │  X  │  C  │  D  │  V  │  /  │  M  │  H  │ ,(-)│  .  ┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
 │ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
@@ -21,7 +21,7 @@ _Colemak-DH, Backspace is where Capslock normally is, but if using_
 _a 1.25U Enter and 1.5U Backspace, it can be in the top-right too._
 _If using split Space, all will be space, so change that too for your own map._
 
-Note: I chose not to layer some of the more commonly used keys, dash, slash and colon. These can be accessed by double-tapping the keys that you see in the keymap that have their Tap Dance key in parenthesis. Holding Shift will send their shifted key. So for example, if you want to type a question mark, hold Shift, and double-tap dot fast enough. (Tapping Term can be set in `config.h`)
+Note: I chose not to layer some of the more commonly used keys, dash and colon. These can be accessed by double-tapping the keys that you see in the keymap that have their Tap Dance key in parenthesis. Holding Shift will send their shifted key. So for example, if you want to type a underscore or colon, hold Shift, and double-tap quote or comma fast enough. (Tapping Term can be set in `config.h`)
 
 
 ```
@@ -30,7 +30,7 @@ Note: I chose not to layer some of the more commonly used keys, dash, slash and 
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
 │Backspace│  A  │  S  │  D  │  F  │  G  │  H  │  J  │  K  │  L  │ '(;)┋Enter│
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│Shift ┋ Fn  │  Z  │  X  │  C  │  V  │  B  │  N  │  M  │ ,(-)│ .(/)┋  Shift │
+│Shift ┋  Z  │  X  │  C  │  V  │  B  │  /  │  N  │  M  │ ,(-)│  .  ┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
 │ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
@@ -43,7 +43,7 @@ _Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout.
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
 │Capslock │  A  │  S  │  D  │  F  │  G  │  H  │  J  │  K  │  L  │ '(;)┋Enter│
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│Shift ┋ Fn  │  Z  │  X  │  C  │  V  │  B  │  N  │  M  │ ,(-)│ .(/)┋  Shift │
+│Shift ┋  Z  │  X  │  C  │  V  │  B  │  /  │  N  │  M  │ ,(-)│  .  ┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
 │ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ N/A  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
@@ -53,7 +53,7 @@ _and Windows key is disabled, just in case._
 
 ## Additional layers for numbers, symbols and other functions
 
-You may have noticed two Function keys in the keymap overviews above, they both do the same thing on their own, pressing either of them will switch to the _symbols_ layer as long as they're held, pressing them both will switch to the _adjust_ layer as long as they're both held or at least the last key of the two pressed is held. (I just felt like adding that last detail, QMK works funny like that.) I wanted to stick to just one Function key, but haven't found out how yet.
+You may have noticed one Function key in the keymap overviews above, but two extra layers, just holding the Function key will switch to the _symbols_ layer, tapping it once followed by a hold will switch to the _adjust_ layer.
 
 
 ```
@@ -62,7 +62,7 @@ You may have noticed two Function keys in the keymap overviews above, they both 
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
 │  Grave  │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  \  │  =  │  [  │  ]  ┋Enter│
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│Shift ┋Adjst│ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │ Del │Pg Up│Pg Dn┋  Shift │
+│Shift ┋ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │ Ins │ Del │Pg Up│Pg Dn┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
 │ Ctrl │     │ Alt  │              ┋     ┋              │Adjust│     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
@@ -76,7 +76,7 @@ _Blank keys are transparent thus using keys on the previous layer._
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
 │Capslock │     │     │     │     │Game │     │Left │Down │ Up  │Right┋Play │
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│Shift ┋     │     │     │ Col │     │     │     │     │Home │ End ┋  Shift │
+│Shift ┋     │     │ Col │     │     │     │     │     │Home │ End ┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
 │ Ctrl │     │ Alt  │     N/A      ┋ N/A ┋      N/A     │      │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
