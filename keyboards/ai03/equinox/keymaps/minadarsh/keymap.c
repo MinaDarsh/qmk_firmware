@@ -30,11 +30,23 @@ enum equinox_keycodes {
 };
 
 enum {
-  DSL = 0,
-  CMN,
+  CMN = 0,
   CQT,
   LYR
 };
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD(CMN):
+            return 175;
+        case TD(CQT):
+            return 175;
+        case TD(LYR):
+            return 250;
+        default:
+            return TAPPING_TERM;
+    }
+}
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
@@ -57,7 +69,7 @@ void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
 qk_tap_dance_action_t tap_dance_actions[] = {
   [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
   [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
-  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, layers_finished, layers_reset, 250)
+  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, layers_finished, layers_reset)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
