@@ -35,7 +35,7 @@ Note: I chose not to layer some of the more commonly used keys, dash and colon. 
 │ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
-_Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout._
+_Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout._,
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
