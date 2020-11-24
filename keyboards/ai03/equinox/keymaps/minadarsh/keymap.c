@@ -15,19 +15,6 @@
  */
 #include QMK_KEYBOARD_H
 
-typedef struct {
-  bool is_press_action;
-  bool on_alpha_layer;
-  uint8_t state;
-} tap;
-
-enum {
-    SINGLE_TAP = 1,
-    SINGLE_HOLD,
-    DOUBLE_TAP,
-    DOUBLE_HOLD
-};
-
 enum equinox_layers {
   _COLEMAK,
   _QWERTY,
@@ -61,11 +48,39 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-uint8_t cur_dance(qk_tap_dance_state_t *state);
+void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    layer_on(_SYMBOL);
+  }
+  else if (state->count == 2) {
+    layer_off(_SYMBOL);
+    layer_on(_ADJUST);
+  }
+}
 
-// void layers_per_tap(qk_tap_dance_state_t *state, void *user_data);
-void layers_finished(qk_tap_dance_state_t *state, void *user_data);
-void layers_reset(qk_tap_dance_state_t *state, void *user_data);
+// void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
+//   if (state->count == 1) {
+//     layer_on(_SYMBOL);
+//   }
+//   else if (state->count == 2) {
+//     layer_on(_ADJUST);
+//   }
+// }
+
+void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
+  if ((!state->pressed) && (state->count == 1)) {
+    layer_off(_SYMBOL);
+  }
+  else if ((!state->pressed) && (state->count == 2)) {
+    layer_off(_ADJUST);
+  }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
+  [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
+  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED(layers_per_tap, NULL, layers_reset)
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -158,88 +173,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  _______,
     _______, _______, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, _______, _______
   )
-};
-
-uint8_t cur_dance(qk_tap_dance_state_t *state) {
-    if (state->count == 1) {
-        if (!state->pressed) return SINGLE_TAP;
-        else return SINGLE_HOLD;
-    } else if (state->count == 2) {
-        if (!state->pressed) return DOUBLE_TAP;
-        else return DOUBLE_HOLD;
-    } else return 5;
-}
-
-static tap xtap_state = {
-    .is_press_action = true,
-    .on_alpha_layer = true,
-    .state = 0
-};
-
-void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
-  if (xtap_state.on_alpha_layer == true) {
-    if (state->count == 1) {
-      if (!layer_state_is(_SYMBOL) && !layer_state_is(_ADJUST)) {
-        layer_on(_SYMBOL);
-      }
-    } else if (state->count == 2) {
-      if (layer_state_is(_SYMBOL) && !layer_state_is(_ADJUST)) {
-        layer_off(_SYMBOL);
-        layer_on(_ADJUST);
-      }
-    }
-  }
-}
-
-void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
-  xtap_state.state = cur_dance(state);
-  switch (xtap_state.state) {
-    case SINGLE_TAP:
-      if (layer_state_is(_SYMBOL)) {
-
-      }
-      break;
-    case SINGLE_HOLD:
-      if (!layer_state_is(_SYMBOL)) {
-        layer_on(_SYMBOL);
-      }
-      break;
-    case DOUBLE_HOLD:
-      if (!layer_state_is(_ADJUST)) {
-        layer_on(_ADJUST);
-      }
-      break;
-  }
-}
-
-void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
-  switch (xtap_state.state) {
-    case SINGLE_TAP:
-      if (layer_state_is(_SYMBOL)) {
-        if (xtap_state.on_alpha_layer == false) {
-          layer_off(_SYMBOL);
-        }
-        xtap_state.on_alpha_layer = true;
-      }
-      break;
-    case SINGLE_HOLD:
-      if (layer_state_is(_SYMBOL)) {
-        layer_off(_SYMBOL);
-      }
-      break;
-    case DOUBLE_HOLD:
-      if (layer_state_is(_ADJUST)) {
-        layer_off(_ADJUST);
-      }
-      break;
-  }
-  xtap_state.state = 0;
-}
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
-  [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
-  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED(layers_per_tap, layers_finished, layers_reset)
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
