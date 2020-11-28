@@ -35,9 +35,7 @@ enum {
   LYR
 };
 
-bool td_state = false;
-
-uint8_t cur_dance(qk_tap_dance_state_t *state);
+bool td_was_held = false;
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data);
 void layers_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -59,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT), KC_BSPC,
     KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_SLSH, KC_M,    KC_H,    TD(CMN), KC_DOT,  KC_RSFT,
-    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, RESET
+    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, KC_RGUI
   ),
 
 /* Qwerty
@@ -95,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
     KC_CAPS, _______, KC_S,    KC_D,    KC_F,    _______, KC_H,    KC_J,    KC_K,    KC_L,    TD(CQT), _______,
     _______, _______, _______, _______, KC_V,    KC_B,    KC_SLSH, KC_N,    KC_M,    _______, _______, _______,
-    _______, XXXXXXX, _______,          _______,          _______,      _______,     _______, XXXXXXX, XXXXXXX
+    _______, _______, _______,          _______,          _______,      _______,     _______, _______, _______
   ),
 
 /*
@@ -130,7 +128,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT_all( /* Board Functions and extra keycodes */
     XXXXXXX, QWERTY,  XXXXXXX, XXXXXXX, RESET,   XXXXXXX, XXXXXXX, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
     KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_MPLY,
-    _______, _______, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  _______,
+    _______, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  _______,
     _______, _______, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, _______, _______
   )
 };
@@ -146,11 +144,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         default:
             return TAPPING_TERM;
     }
-}
-
-uint8_t cur_dance(qk_tap_dance_state_t *state) {
-    if (state->pressed) return true;
-    else return false;
 }
 
 void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
@@ -178,15 +171,19 @@ void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
-  td_state = cur_dance(state);
+  if (state->pressed) {
+    td_was_held = true;
+  } else {
+    td_was_held = false;
+  }
 }
 
 void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
-  if (td_state == true) {
+  if (td_was_held == true) {
     layer_off(_SYMBOL);
     layer_off(_ADJUST);
   }
-  td_state = false;
+  td_was_held = false;
 }
 
 qk_tap_dance_action_t tap_dance_actions[] = {
