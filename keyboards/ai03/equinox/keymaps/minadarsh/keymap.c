@@ -36,6 +36,7 @@ enum {
 };
 
 bool td_was_held = false;
+bool td_is_on_adj = false;
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data);
 void layers_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -156,25 +157,34 @@ void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
     }
   }
   else if (state->count == 2) {
-    if (!layer_state_is(_ADJUST)) {
+    if (!layer_state_is(_ADJUST) && td_is_on_adj == false) {
       layer_off(_SYMBOL);
       layer_on(_ADJUST);
     } else {
       layer_off(_SYMBOL);
       layer_off(_ADJUST);
+      td_is_on_adj = false;
     }
   }
-  else if (state->count >= 3) {
+  else if (state->count == 3) {
     layer_off(_SYMBOL);
     layer_off(_ADJUST);
+    td_is_on_adj = false;
   }
 }
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
   if (state->pressed) {
     td_was_held = true;
+    td_is_on_adj = false;
   } else {
     td_was_held = false;
+    if (state->count == 1 && layer_state_is(_SYMBOL)) {
+      td_is_on_adj = false;
+    }
+    else if (state->count == 2 && layer_state_is(_ADJUST)) {
+      td_is_on_adj = true;
+    }
   }
 }
 
