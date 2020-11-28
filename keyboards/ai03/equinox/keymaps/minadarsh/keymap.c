@@ -68,12 +68,9 @@ void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
 // }
 
 void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
-  if ((!state->pressed) && (state->count == 1)) {
-    layer_off(_SYMBOL);
-  }
-  else if ((!state->pressed) && (state->count == 2)) {
-    layer_off(_ADJUST);
-  }
+  // in this situation it doesn't matter which layer got turned on, turn all extra layers off
+  layer_off(_SYMBOL);
+  layer_off(_ADJUST);
 }
 
 qk_tap_dance_action_t tap_dance_actions[] = {
