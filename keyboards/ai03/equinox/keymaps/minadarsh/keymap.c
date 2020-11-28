@@ -35,49 +35,12 @@ enum {
   LYR
 };
 
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case TD(CMN):
-            return 175;
-        case TD(CQT):
-            return 175;
-        case TD(LYR):
-            return 250;
-        default:
-            return TAPPING_TERM;
-    }
-}
+bool td_state = false;
 
-void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    layer_on(_SYMBOL);
-  }
-  else if (state->count == 2) {
-    layer_off(_SYMBOL);
-    layer_on(_ADJUST);
-  }
-}
+uint8_t cur_dance(qk_tap_dance_state_t *state);
 
-// void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
-//   if (state->count == 1) {
-//     layer_on(_SYMBOL);
-//   }
-//   else if (state->count == 2) {
-//     layer_on(_ADJUST);
-//   }
-// }
-
-void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
-  // in this situation it doesn't matter which layer got turned on, turn all extra layers off
-  layer_off(_SYMBOL);
-  layer_off(_ADJUST);
-}
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
-  [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
-  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED(layers_per_tap, NULL, layers_reset)
-};
+void layers_finished(qk_tap_dance_state_t *state, void *user_data);
+void layers_reset(qk_tap_dance_state_t *state, void *user_data);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -96,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT), KC_BSPC,
     KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_SLSH, KC_M,    KC_H,    TD(CMN), KC_DOT,  KC_RSFT,
-    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, KC_RGUI
+    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, RESET
   ),
 
 /* Qwerty
@@ -170,6 +133,66 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  _______,
     _______, _______, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, _______, _______
   )
+};
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD(CMN):
+            return 175;
+        case TD(CQT):
+            return 175;
+        case TD(LYR):
+            return 250;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
+uint8_t cur_dance(qk_tap_dance_state_t *state) {
+    if (state->pressed) return true;
+    else return false;
+}
+
+void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    if (!layer_state_is(_SYMBOL)) {
+      layer_off(_ADJUST);
+      layer_on(_SYMBOL);
+    } else {
+      layer_off(_SYMBOL);
+    }
+  }
+  else if (state->count == 2) {
+    if (!layer_state_is(_ADJUST)) {
+      layer_off(_SYMBOL);
+      layer_on(_ADJUST);
+    } else {
+      layer_off(_SYMBOL);
+      layer_off(_ADJUST);
+    }
+  }
+  else if (state->count >= 3) {
+    layer_off(_SYMBOL);
+    layer_off(_ADJUST);
+  }
+}
+
+void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
+  td_state = cur_dance(state);
+}
+
+void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
+  if (td_state == true) {
+    layer_off(_SYMBOL);
+    layer_off(_ADJUST);
+  }
+  td_state = false;
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
+  [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
+  [LYR] = ACTION_TAP_DANCE_FN_ADVANCED(layers_per_tap, layers_finished, layers_reset)
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
