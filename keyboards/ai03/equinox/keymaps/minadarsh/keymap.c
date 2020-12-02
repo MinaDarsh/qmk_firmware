@@ -129,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] = LAYOUT_all( /* Board Functions and extra keycodes */
     XXXXXXX, QWERTY,  XXXXXXX, XXXXXXX, RESET,   XXXXXXX, XXXXXXX, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
     KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_MPLY,
-    _______, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  _______,
+    _______, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, BL_STEP, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  _______,
     _______, _______, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, _______, _______
   )
 };
@@ -152,23 +152,38 @@ void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
     if (!layer_state_is(_SYMBOL)) {
       layer_off(_ADJUST);
       layer_on(_SYMBOL);
+      #ifdef BACKLIGHT_ENABLE
+        backlight_enable();
+      #endif
     } else {
       layer_off(_SYMBOL);
+      #ifdef BACKLIGHT_ENABLE
+        backlight_disable();
+      #endif
     }
   }
   else if (state->count == 2) {
     if (!layer_state_is(_ADJUST) && td_is_on_adj == false) {
       layer_off(_SYMBOL);
       layer_on(_ADJUST);
+      #ifdef BACKLIGHT_ENABLE
+        backlight_enable();
+      #endif
     } else {
       layer_off(_SYMBOL);
       layer_off(_ADJUST);
+      #ifdef BACKLIGHT_ENABLE
+        backlight_disable();
+      #endif
       td_is_on_adj = false;
     }
   }
   else if (state->count == 3) {
     layer_off(_SYMBOL);
     layer_off(_ADJUST);
+    #ifdef BACKLIGHT_ENABLE
+      backlight_disable();
+    #endif
     td_is_on_adj = false;
   }
 }
@@ -192,6 +207,9 @@ void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
   if (td_was_held == true) {
     layer_off(_SYMBOL);
     layer_off(_ADJUST);
+    #ifdef BACKLIGHT_ENABLE
+      backlight_disable();
+    #endif
   }
   td_was_held = false;
 }
