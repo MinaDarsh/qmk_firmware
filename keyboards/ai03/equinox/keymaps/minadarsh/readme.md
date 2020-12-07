@@ -41,14 +41,14 @@ _Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout.
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
 │  Tab   │  Q  │  W  │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │ BkSp │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
-│Capslock │  A  │  S  │  D  │  F  │  G  │  H  │  J  │  K  │  L  │ '(;)┋Enter│
+│Caps Lock│  A  │  S  │  D  │  F  │  G  │  H  │  J  │  K  │  L  │ '(;)┋Enter│
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │Shift ┋  Z  │  X  │  C  │  V  │  B  │  /  │  N  │  M  │ ,(-)│  .  ┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
 │ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ N/A  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
-_Qwerty, but for gaming, left Backspace is now Capslock once more as some games use this,_
+_Qwerty, but for gaming, left Backspace is now Caps Lock once more as some games use this,_
 _and Windows key is disabled, just in case._
 
 ## Additional layers for numbers, symbols and other functions
@@ -67,26 +67,24 @@ You may have noticed one Function key in the keymap overviews above, but three e
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │Shift ┋ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │ Ins │ Del │Pg Up│Pg Dn┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│ Ctrl │     │ Alt  │              ┋     ┋              │Adjust│     │ Win  │
+│ Ctrl │     │ Alt  │              ┋Space┋              │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
 _Symbols layer, though it mostly offers numbers and F-row keys, etc._
-_Blank keys are transparent thus using keys on the previous layer._
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
-│  Esc   │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │      │
+│  Esc   │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │ BkSp │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
-│  Tilde  │Left │ Up  │Down │Right│     │     │  |  │  +  │  {  │  }  ┋Play │
+│  Tilde  │Left │ Up  │Down │Right│ N/A │ N/A │  |  │  +  │  {  │  }  ┋Play │
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│      ┋Prev │Vol -│Vol +│Next │     │     │PrSrn│PsBrk│Home │ End ┋        │
+│Shift ┋Prev │Vol -│Vol +│Next │ N/A │ N/A │PScrn│Pause│Home │ End ┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│      │     │      │              ┋     ┋              │      │     │      │
+│ Ctrl │     │ Alt  │              ┋Space┋              │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
 _Shifted Symbols Layer, for when two taps is easier than holding Shift as well._
 _Also the remainder of the Navigation keys can be found here as well as Media keys._
-_Blank keys are transparent thus using keys on the previous Layer._
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
@@ -96,11 +94,16 @@ _Blank keys are transparent thus using keys on the previous Layer._
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │      ┋     │     │Colmk│BlBth│BlStp│     │     │     │     │     ┋        │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│      │     │      │              ┋     ┋              │      │     │      │
+│      │     │      │              ┋     ┋              │  Fn  │     │      │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
 _Adjust layer, controlling keyboard settings like layout and backlighting, as well as enabling DFU Mode._
-_Blank Alpha keys and keys market N/A are not transparent here, they don't do anything when pressed._
+_Blank keys on just this layer are not transparent here but disabled, they don't do anything when pressed._
+
+To clarify:
+
+* Qwrty, Colmk and Game switch to Qwerty, Colemak-DHk and Gaming layout respectively.
+* BlBth toggles Backlight Breathing mode and BlStp cycles through backlight brightness levels. (off, level 1 to 5 in brightness.)
 
 ## Additional notes
 

@@ -123,15 +123,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
  * │  Tilde  │Left │ Up  │Down │Right│     │     │  |  │  +  │  {  │  }  ┋Play │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋Prev │Vol -│Vol +│Next │     │     │PrSrn│PsBrk│Home │ End ┋        │
+ * │      ┋Prev │Vol -│Vol +│Next │     │     │PScrn│Pause│Home │ End ┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_SYMBL2] = LAYOUT_all( /* Shifted Symbol, Media and other Keys */
     KC_ESC,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-    KC_TILD, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR, KC_MPLY,
-    _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______, _______, KC_PSCR, KC_PAUS, KC_HOME, KC_END,  _______,
+    KC_TILD, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX, KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR, KC_MPLY,
+    _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX, KC_PSCR, KC_PAUS, KC_HOME, KC_END,  _______,
     _______, _______, _______,          _______,          _______,     _______,      _______, _______, _______
   ),
 
