@@ -45,11 +45,10 @@ _Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout.
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │Shift ┋  Z  │  X  │  C  │  V  │  B  │  /  │  N  │  M  │ ,(-)│  .  ┋  Shift │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ N/A  │
+│ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
-_Qwerty, but for gaming, left Backspace is now Caps Lock once more as some games use this,_
-_and Windows key is disabled, just in case._
+_Qwerty, but for gaming, left Backspace is now Caps Lock once more as some games use this._
 
 ## Additional layers for numbers, symbols and other functions
 
