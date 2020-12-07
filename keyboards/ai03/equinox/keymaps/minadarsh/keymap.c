@@ -20,6 +20,7 @@ enum equinox_layers {
   _QWERTY,
   _GAMING,
   _SYMBOL,
+  _SYMBL2,
   _ADJUST
 };
 
@@ -36,6 +37,7 @@ enum {
 };
 
 bool td_was_held = false;
+bool td_is_on_sm2 = false;
 bool td_is_on_adj = false;
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data);
@@ -45,13 +47,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Colemak-DHk
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │  TAB   │  Q  │  W  │  F  │  P  │  B  │  J  │  L  │  U  │  Y  │  ;  │ BSPC │
+ * │  Tab   │  Q  │  W  │  F  │  P  │  B  │  J  │  L  │  U  │  Y  │  ;  │Bk Spc│
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │Backspace│  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  ┋ENTER│
+ * │Backspace│  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  ┋Enter│
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │LSHIFT┋  Z  │  X  │  C  │  D  │  V  │  ?  │  M  │  H  │  ,  │  .  ┋ RSHIFT │
+ * │LShift┋  Z  │  X  │  C  │  D  │  V  │  ?  │  M  │  H  │  ,  │  .  ┋ RShift │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
- * │L_CTRL│     │ LALT │     SPC      ┋ SPC ┋      SPC     │SYMBOL│     │R_GUI │
+ * │L_Ctrl│     │ LAlt │              ┋Space┋              │QFTDLK│     │R_GUI │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_COLEMAK] = LAYOUT_all( /* Colemak-DH Base */
@@ -83,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
  * │        │     │     │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │CAPS LOCK│     │  S  │  D  │  F  │     │  H  │  J  │  K  │  L  │  ;  ┋     │
+ * │Caps Lock│     │  S  │  D  │  F  │     │  H  │  J  │  K  │  L  │  ;  ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
  * │      ┋     │     │     │  V  │  B  │  ?  │  N  │  M  │     │     ┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
@@ -99,13 +101,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /*
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │  ESC   │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │      │
+ * │  Esc   │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │  GRAVE  │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  \  │  =  │  [  │  ]  ┋     │
+ * │  Grave  │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  \  │  =  │  [  │  ]  ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
  * │      ┋ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │ Ins │ Del │Pg Up│Pg Dn┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
- * │      │     │      │              ┋     ┋              │ADJUST│     │      │
+ * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_SYMBOL] = LAYOUT_all( /* Symbol Keys */
@@ -115,22 +117,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______,          _______,          _______,     _______,      _______, _______, _______
   ),
 
-/* Keeping this layer non-transparent.
+/*
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │        │ QWT │     │     │Reset│     │     │Next │Vol -│Vol +│Prev │      │
+ * │  Esc   │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │CAPS LOCK│     │     │     │     │Game │     │Left │Down │ Up  │Right┋Play │
+ * │  Tilde  │Left │ Up  │Down │Right│     │     │  |  │  +  │  {  │  }  ┋Play │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋     │     │ COL │     │     │     │     │     │Home │ End ┋        │
+ * │      ┋Prev │Vol -│Vol +│Next │     │     │PrSrn│PsBrk│Home │ End ┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
-  [_ADJUST] = LAYOUT_all( /* Board Functions and extra keycodes */
-    XXXXXXX, QWERTY,  XXXXXXX, XXXXXXX, RESET,   XXXXXXX, XXXXXXX, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
-    KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_MPLY,
-    _______, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, BL_STEP, XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_END,  _______,
-    _______, _______, _______,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, _______, _______
+  [_SYMBL2] = LAYOUT_all( /* Shifted Symbol, Media and other Keys */
+    KC_ESC,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
+    KC_TILD, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR, KC_MPLY,
+    _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______, _______, KC_PSCR, KC_PAUS, KC_HOME, KC_END,  _______,
+    _______, _______, _______,          _______,          _______,     _______,      _______, _______, _______
+  ),
+
+/* Keeping this layer non-transparent.
+ * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
+ * │ Reset  │Qwrty│     │     │     │     │     │     │     │     │     │      │
+ * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
+ * │         │     │     │     │     │Game │     │     │     │     │     ┋     │
+ * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
+ * │      ┋     │     │Colmk│BlBth│BlStp│     │     │     │     │     ┋        │
+ * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
+ * │      │     │      │              ┋     ┋              │      │     │      │
+ * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
+ */
+  [_ADJUST] = LAYOUT_all( /* Board Functions */
+    RESET,   QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, COLEMAK, BL_BRTG, BL_STEP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, XXXXXXX, XXXXXXX
   )
 };
 
@@ -150,40 +170,38 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (!layer_state_is(_SYMBOL)) {
-      layer_off(_ADJUST);
       layer_on(_SYMBOL);
-      #ifdef BACKLIGHT_ENABLE
-        backlight_enable();
-      #endif
+      layer_off(_SYMBL2);
+      layer_off(_ADJUST);
     } else {
       layer_off(_SYMBOL);
-      #ifdef BACKLIGHT_ENABLE
-        backlight_disable();
-      #endif
     }
   }
   else if (state->count == 2) {
-    if (!layer_state_is(_ADJUST) && td_is_on_adj == false) {
+    if (!layer_state_is(_SYMBL2) && td_is_on_sm2 == false) {
       layer_off(_SYMBOL);
-      layer_on(_ADJUST);
-      #ifdef BACKLIGHT_ENABLE
-        backlight_enable();
-      #endif
+      layer_on(_SYMBL2);
+      layer_off(_ADJUST);
     } else {
       layer_off(_SYMBOL);
-      layer_off(_ADJUST);
-      #ifdef BACKLIGHT_ENABLE
-        backlight_disable();
-      #endif
-      td_is_on_adj = false;
+      layer_off(_SYMBL2);
+      td_is_on_sm2 = false;
     }
   }
   else if (state->count == 3) {
-    layer_off(_SYMBOL);
+    if (!layer_state_is(_ADJUST) && td_is_on_adj == false) {
+      layer_off(_SYMBL2);
+      layer_on(_ADJUST);
+    } else {
+      layer_off(_SYMBOL);
+      layer_off(_SYMBL2);
+      layer_off(_ADJUST);
+      td_is_on_adj = false;
+    }
+  }
+  else if (state->count == 4) {
     layer_off(_ADJUST);
-    #ifdef BACKLIGHT_ENABLE
-      backlight_disable();
-    #endif
+    td_is_on_sm2 = false;
     td_is_on_adj = false;
   }
 }
@@ -191,13 +209,20 @@ void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
 void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
   if (state->pressed) {
     td_was_held = true;
+    td_is_on_sm2 = false;
     td_is_on_adj = false;
   } else {
-    td_was_held = false;
+    td_was_held = false; // not sure if necessary
     if (state->count == 1 && layer_state_is(_SYMBOL)) {
+      td_is_on_sm2 = false;
       td_is_on_adj = false;
     }
-    else if (state->count == 2 && layer_state_is(_ADJUST)) {
+    else if (state->count == 2 && layer_state_is(_SYMBL2)) {
+      td_is_on_sm2 = true;
+      td_is_on_adj = false;
+    }
+    else if (state->count == 3 && layer_state_is(_ADJUST)) {
+      td_is_on_sm2 = false;
       td_is_on_adj = true;
     }
   }
@@ -206,10 +231,8 @@ void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
 void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
   if (td_was_held == true) {
     layer_off(_SYMBOL);
+    layer_off(_SYMBL2);
     layer_off(_ADJUST);
-    #ifdef BACKLIGHT_ENABLE
-      backlight_disable();
-    #endif
   }
   td_was_held = false;
 }

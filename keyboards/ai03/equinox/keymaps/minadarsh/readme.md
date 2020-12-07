@@ -17,7 +17,7 @@ It features Persistent layers for Colemak-DHk (default) and two Qwerty layouts, 
 │ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
-_Colemak-DH, Backspace is where Capslock normally is, but if using_
+_Colemak-DHk, Backspace is where Capslock normally is, but if using_
 _a 1.25U Enter and 1.5U Backspace, it can be in the top-right too._
 _If using split Space, all will be space, so change that too for your own map._
 
@@ -35,7 +35,7 @@ Note: I chose not to layer some of the more commonly used keys, dash and colon. 
 │ Ctrl │     │ Alt  │    Space     ┋Space┋     Space    │  Fn  │     │ Win  │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
-_Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout._,
+_Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout._
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
@@ -53,8 +53,11 @@ _and Windows key is disabled, just in case._
 
 ## Additional layers for numbers, symbols and other functions
 
-You may have noticed one Function key in the keymap overviews above, but two extra layers, just holding the Function key will switch to the _symbols_ layer, tapping it once followed by a hold will switch to the _adjust_ layer.
+You may have noticed one Function key in the keymap overviews above, but three extra layers, just holding the Function key will switch to the _symbols_ layer, tapping it once followed by a hold will switch to the _shifted symbols_ layer, lastly, tapping trice holding on the last tap will enter the _adjust_ layer. If you omit holding on the last press, they keyboard will toggle these layers rather than waiting for you to let go of the key in order to go back to the main layer. So for example, tapping twice brings you to the _shifted symbols_ layer, and stays there. tap twice to go back to the main layer. You can also hop between layers, so from _shift symbols_ you can also go to _symbols_ by tapping once or _adjust_ by tapping trice from there. When you want to get back to main, there are three ways:
 
+* If you know which layer you're on, tap the amount you used to get on that layer again.
+* If you don't know it, you can either hold the button longer than Tapping Term. (250ms for this key specifically.)
+* Or tap four times in a row or more, this will enter the final possibility which is set to leave all extra layers.
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
@@ -72,16 +75,31 @@ _Blank keys are transparent thus using keys on the previous layer._
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
-│  N/A   │ Qwt │     │     │Reset│     │     │Next │Vol -│Vol +│Prev │ BkSp │
+│  Esc   │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │      │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
-│Capslock │     │     │     │     │Game │     │Left │Down │ Up  │Right┋Play │
+│  Tilde  │Left │ Up  │Down │Right│     │     │  |  │  +  │  {  │  }  ┋Play │
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
-│Shift ┋     │     │ Col │     │     │     │     │     │Home │ End ┋  Shift │
+│      ┋Prev │Vol -│Vol +│Next │     │     │PrSrn│PsBrk│Home │ End ┋        │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
-│ Ctrl │     │ Alt  │     N/A      ┋ N/A ┋      N/A     │      │     │ Win  │
+│      │     │      │              ┋     ┋              │      │     │      │
 └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
 ```
-_Adjust layer, the rest of the features are here, including media controls and arrows._
+_Shifted Symbols Layer, for when two taps is easier than holding Shift as well._
+_Also the remainder of the Navigation keys can be found here as well as Media keys._
+_Blank keys are transparent thus using keys on the previous Layer._
+
+```
+┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
+│ Reset  │Qwrty│     │     │     │     │     │     │     │     │     │      │
+├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
+│         │     │     │     │     │Game │     │     │     │     │     ┋     │
+├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
+│      ┋     │     │Colmk│BlBth│BlStp│     │     │     │     │     ┋        │
+├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
+│      │     │      │              ┋     ┋              │      │     │      │
+└──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
+```
+_Adjust layer, controlling keyboard settings like layout and backlighting, as well as enabling DFU Mode._
 _Blank Alpha keys and keys market N/A are not transparent here, they don't do anything when pressed._
 
 ## Additional notes
