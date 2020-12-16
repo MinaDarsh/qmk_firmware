@@ -39,6 +39,8 @@ enum {
 bool td_was_held = false;
 bool td_is_on_sm2 = false;
 bool td_is_on_adj = false;
+static uint16_t timer;
+static bool is_idle;
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data);
 void layers_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -154,6 +156,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+void matrix_scan_user() {
+  if (!is_idle) {
+    if (timer_elapsed(timer) >= (uint16_t) LAYER_IDLE_TIMEOUT * 1000) {
+      is_idle = true;
+      if (layer_state_is(_SYMBOL) || layer_state_is(_SYMBL2) || layer_state_is(_ADJUST)) {
+        layer_off(_SYMBOL);
+        layer_off(_SYMBL2);
+        layer_off(_ADJUST);
+        td_is_on_sm2 = false;
+        td_is_on_adj = false;
+      }
+    }
+  }
+}
+
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case TD(CMN):
@@ -244,6 +261,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  timer = timer_read();
+  if (is_idle) {
+    is_idle = false;
+  }
   switch (keycode) {
     case COLEMAK:
       if (record->event.pressed) {
