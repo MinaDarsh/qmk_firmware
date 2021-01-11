@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT), KC_BSPC,
     KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
     KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_SLSH, KC_M,    KC_H,    TD(CMN), KC_DOT,  KC_RSFT,
-    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, KC_RGUI
+    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, RESET
   ),
 
 /* Qwerty
@@ -161,11 +161,13 @@ void matrix_scan_user() {
     if (timer_elapsed(timer) >= (uint16_t) LAYER_IDLE_TIMEOUT * 1000) {
       is_idle = true;
       if (layer_state_is(_SYMBOL) || layer_state_is(_SYMBL2) || layer_state_is(_ADJUST)) {
-        layer_off(_SYMBOL);
-        layer_off(_SYMBL2);
-        layer_off(_ADJUST);
-        td_is_on_sm2 = false;
-        td_is_on_adj = false;
+        if (!td_was_held) {
+          layer_off(_SYMBOL);
+          layer_off(_SYMBL2);
+          layer_off(_ADJUST);
+          td_is_on_sm2 = false;
+          td_is_on_adj = false;
+        }
       }
     }
   }
