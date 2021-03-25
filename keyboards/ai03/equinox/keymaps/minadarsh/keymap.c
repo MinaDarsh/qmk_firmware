@@ -55,14 +55,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
  * │LShift┋  Z  │  X  │  C  │  D  │  V  │  ?  │  M  │  H  │  ,  │  .  ┋ RShift │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
- * │L_Ctrl│     │ LAlt │              ┋Space┋              │QFTDLK│     │R_GUI │
+ * │L_Ctrl│     │ LAlt │    Space*    ┋Space┋  Backspace*  │QFTDLK│     │R_GUI │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
+ * * If split, change the middle button if applicable.
  */
   [_COLEMAK] = LAYOUT_all( /* Colemak-DH Base */
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT), KC_BSPC,
     KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
     KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_SLSH, KC_M,    KC_H,    TD(CMN), KC_DOT,  KC_RSPC,
-    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_SPC,      TD(LYR), XXXXXXX, KC_RGUI
+    KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_BSPC,     TD(LYR), XXXXXXX, KC_RGUI
   ),
 
 /* Qwerty
