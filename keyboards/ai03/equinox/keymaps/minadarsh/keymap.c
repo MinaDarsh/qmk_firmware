@@ -19,6 +19,7 @@ enum equinox_layers {
   _COLEMAK,
   _QWERTY,
   _GAMING,
+  _NUMPAD,
   _SYMBOL,
   _SYMBL2,
   _ADJUST
@@ -27,7 +28,9 @@ enum equinox_layers {
 enum equinox_keycodes {
   COLEMAK = SAFE_RANGE,
   QWERTY,
-  GAMING
+  GAMING,
+  NUMPAD,
+  LEAVENM
 };
 
 enum {
@@ -140,7 +143,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Keeping this layer non-transparent.
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │ Reset  │Qwrty│     │     │     │     │     │     │     │     │     │      │
+ * │ Reset  │Qwrty│     │     │     │Nm/TK│     │     │     │     │     │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
  * │         │     │     │     │     │Game │     │TNKRO│     │     │     ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
@@ -150,10 +153,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_ADJUST] = LAYOUT_all( /* Board Functions */
-    RESET,   QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    RESET,   QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX, NUMPAD,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, NK_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, COLEMAK, BL_BRTG, BL_STEP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, XXXXXXX, XXXXXXX
+  ),
+
+/* Who says 40% can't have a numpad?
+ * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
+ * │  Tab   │     │     │     │     │LveNm│NmLck│Num 7│Num 8│Num 9│Num +│      │
+ * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
+ * │Backspace│     │     │     │     │     │NmAst│Num 4│Num 5│Num 6│Num -┋NEntr│
+ * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
+ * │      ┋     │     │     │     │     │     │NmSlh│Num 1│Num 2│Num 3┋        │
+ * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
+ * │      │     │      │              ┋     ┋              │Num 0 │     │Num Dt│
+ * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
+ */
+  [_NUMPAD] = LAYOUT_all( /* Numpad */
+    KC_TAB,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LEAVENM, KC_NLCK, KC_P7,   KC_P8,   KC_P9,   KC_PPLS, _______,
+    KC_BSPC, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAST, KC_P4,   KC_P5,   KC_P6,   KC_PMNS, KC_PENT,
+    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSLS, KC_P1,   KC_P2,   KC_P3,   _______,
+    _______, XXXXXXX, _______,          _______,          _______,     _______,      KC_P0,   XXXXXXX, KC_PDOT
   )
 };
 
@@ -161,11 +182,12 @@ void matrix_scan_user() {
   if (!is_idle) {
     if (timer_elapsed(timer) >= (uint16_t) LAYER_IDLE_TIMEOUT * 1000) {
       is_idle = true;
-      if (layer_state_is(_SYMBOL) || layer_state_is(_SYMBL2) || layer_state_is(_ADJUST)) {
+      if (layer_state_is(_SYMBOL) || layer_state_is(_SYMBL2) || layer_state_is(_ADJUST) || layer_state_is(_NUMPAD)) {
         if (!td_was_held) {
           layer_off(_SYMBOL);
           layer_off(_SYMBL2);
           layer_off(_ADJUST);
+          layer_off(_NUMPAD);
           td_is_on_sm2 = false;
           td_is_on_adj = false;
         }
@@ -284,6 +306,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case GAMING:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_GAMING);
+      }
+      return false;
+      break;
+    case NUMPAD:
+      if (record->event.pressed) {
+        layer_off(_ADJUST); // stuff else goes wrong if we toggle and then try to switch to numpad
+        layer_on(_NUMPAD);
+      }
+      return false;
+      break;
+    case LEAVENM:
+      if (record->event.pressed) {
+        layer_off(_NUMPAD);
       }
       return false;
       break;
