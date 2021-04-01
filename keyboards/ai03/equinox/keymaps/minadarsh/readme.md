@@ -52,11 +52,11 @@ _Qwerty, but for gaming, left Backspace is now Caps Lock once more as some games
 
 ## Additional non-persistent layers for numbers, symbols, numpad and other functions
 
-You may have noticed one Function key in the keymap overviews above, but three extra layers, just holding the Function key will switch to the _symbols_ layer, tapping it once followed by a hold will switch to the _shifted symbols_ layer, lastly, tapping trice holding on the last tap will enter the _adjust_ layer. If you omit holding on the last press, the keyboard will toggle these layers rather than waiting for you to let go of the key in order to go back to the main layer. So for example, tapping twice brings you to the _shifted symbols_ layer, and stays there, tap twice again to go back to the main layer. You can also hop between layers, so from _shifted symbols_ you can also go to _symbols_ by tapping once or _adjust_ by tapping trice from there. When you want to get back to main, there are three ways:
+You may have noticed one Function key in the keymap overviews above, but four extra layers (the fourth being accessed differently, though), just holding the Function key will switch to the _symbols_ layer, tapping it once followed by a hold will switch to the _shifted symbols_ layer, lastly, tapping trice holding on the last tap will enter the _adjust_ layer. If you omit holding on the last press, the keyboard will toggle these layers rather than waiting for you to let go of the key in order to go back to the main layer. So for example, tapping twice brings you to the _shifted symbols_ layer, and stays there (until idle timeout), tap twice again to go back to the main layer. You can also hop between layers, so from _shifted symbols_ you can also go to _symbols_ by tapping once or _adjust_ by tapping trice from there. When you want to get back to main, there are three ways:
 
 * If you know which layer you're on, tap the amount you used to get on that layer again.
-* If you don't know it, you can either hold the button longer than Tapping Term. (250ms for this key specifically.)
-* Or tap four times in a row or more, this will enter the final possibility which is set to leave all extra layers.
+* If you don't know it, you can either hold the button longer than Tapping Term and let go. (250ms for this key specifically.)
+* Or tap four times in a row or more, this will leave all extra layers.
 * Last but not least, if you do nothing for a while the keyboard will switch back to the main layer by itself. (See Additional Notes.)
 
 ```
@@ -124,6 +124,6 @@ _or by waiting for Layer Idle Timeout to trigger._
 
 ## Additional notes
 
-- Make sure when making your own version based on my keymap to have `TAP_DANCE = yes` in your `rules.mk` file and `#define TAPPING_TERM 175` and `#define TAPPING_TERM_PER_KEY` in your `config.h`, else the double-tap keys on the persistent layers won't work. The number after Tapping Term can be changed to whatever you want and is in milliseconds. Each key in the keymap can also get their own Tapping Term in the `get_tapping_term()` Function.
-- In `config.h`, `#define LAYER_IDLE_TIMEOUT` is used to set a timeout variable for when to automatically switch back to the main layer if you toggled to one of the non-persistent layers. The number after it is the amount of seconds.
+- Make sure when making your own version based on my keymap to have `TAP_DANCE = yes` in your `rules.mk` file and `#define TAPPING_TERM 175` and `#define TAPPING_TERM_PER_KEY` in your `config.h`, else the double-tap keys on the persistent layers won't work. The number after Tapping Term can be changed to whatever you want and is in milliseconds. Each key in the keymap can also get their own Tapping Term in the `get_tapping_term()` Function in your keymap.
+- In `config.h`, `#define LAYER_IDLE_TIMEOUT 3` is used to set a timeout variable for when to automatically switch back to the main layer if you toggled to one of the non-persistent layers. The number is the amount of seconds which you can change to your liking.
 - `config.h` undefines `PRODUCT` and then redefines it with my own, this is so that when you look up the device in (Windows) Devices on your computer, it'll have a nice personalized name. You can change this in your own map to make your board also have a unique name. `\x0027` is used to type an apostrophe.
