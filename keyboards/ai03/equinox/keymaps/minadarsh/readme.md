@@ -50,13 +50,14 @@ _Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout.
 ```
 _Qwerty, but for gaming, left Backspace is now Caps Lock once more as some games use this._
 
-## Additional layers for numbers, symbols and other functions
+## Additional non-persistent layers for numbers, symbols, numpad and other functions
 
 You may have noticed one Function key in the keymap overviews above, but three extra layers, just holding the Function key will switch to the _symbols_ layer, tapping it once followed by a hold will switch to the _shifted symbols_ layer, lastly, tapping trice holding on the last tap will enter the _adjust_ layer. If you omit holding on the last press, the keyboard will toggle these layers rather than waiting for you to let go of the key in order to go back to the main layer. So for example, tapping twice brings you to the _shifted symbols_ layer, and stays there, tap twice again to go back to the main layer. You can also hop between layers, so from _shifted symbols_ you can also go to _symbols_ by tapping once or _adjust_ by tapping trice from there. When you want to get back to main, there are three ways:
 
 * If you know which layer you're on, tap the amount you used to get on that layer again.
 * If you don't know it, you can either hold the button longer than Tapping Term. (250ms for this key specifically.)
 * Or tap four times in a row or more, this will enter the final possibility which is set to leave all extra layers.
+* Last but not least, if you do nothing for a while the keyboard will switch back to the main layer by itself. (See Additional Notes.)
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
@@ -87,9 +88,9 @@ _Also the remainder of the Navigation keys can be found here as well as Media ke
 
 ```
 ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
-│ Reset  │Qwrty│     │     │     │     │     │     │     │     │     │      │
+│ Reset  │Qwrty│     │     │     │Nm/TK│     │     │     │     │     │      │
 ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
-│         │     │     │     │     │Game │     │     │     │     │     ┋     │
+│         │     │     │     │     │Game │TNKRO│     │     │     │     ┋     │
 ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
 │      ┋     │     │Colmk│BlBth│BlStp│     │     │     │     │     ┋        │
 ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
@@ -103,8 +104,26 @@ To clarify:
 
 * Qwrty, Colmk and Game switch to Qwerty, Colemak-DHk and Gaming layout respectively.
 * BlBth toggles Backlight Breathing mode and BlStp cycles through backlight brightness levels. (off, level 1 to 5 in brightness.)
+* Nm/TK switches over to the Numpad layer, or TenKey. (Hence I put it on the T-key, assuming Qwerty.(May move in the future.))
+* TNKRO toggles N-key Rollover, you may need to disable it if using this keyboard in your computer's BIOS.
+
+```
+┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
+│  Tab   │     │     │     │     │LveNm│NmLck│Num 7│Num 8│Num 9│Num +│      │
+├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
+│Backspace│     │     │     │     │     │NmAst│Num 4│Num 5│Num 6│Num -┋NEntr│
+├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
+│      ┋     │     │     │     │     │     │NmSlh│Num 1│Num 2│Num 3┋        │
+├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
+│      │     │      │              ┋     ┋              │Num 0 │     │Num Dt│
+└──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
+```
+_Numpad layer, note that the Function key is used for Numpad 0._
+_Switching back is done by hitting LveNm (Leave Numpad)_
+_or by waiting for Layer Idle Timeout to trigger._
 
 ## Additional notes
 
 - Make sure when making your own version based on my keymap to have `TAP_DANCE = yes` in your `rules.mk` file and `#define TAPPING_TERM 175` and `#define TAPPING_TERM_PER_KEY` in your `config.h`, else the double-tap keys on the persistent layers won't work. The number after Tapping Term can be changed to whatever you want and is in milliseconds. Each key in the keymap can also get their own Tapping Term in the `get_tapping_term()` Function.
+- In `config.h`, `#define LAYER_IDLE_TIMEOUT` is used to set a timeout variable for when to automatically switch back to the main layer if you toggled to one of the non-persistent layers. The number after it is the amount of seconds.
 - `config.h` undefines `PRODUCT` and then redefines it with my own, this is so that when you look up the device in (Windows) Devices on your computer, it'll have a nice personalized name. You can change this in your own map to make your board also have a unique name. `\x0027` is used to type an apostrophe.
