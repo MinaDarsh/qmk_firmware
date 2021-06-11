@@ -36,6 +36,7 @@ enum equinox_keycodes {
 enum {
   CMN = 0,
   CQT,
+  GES,
   TES,
   LYR,
 };
@@ -90,9 +91,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______,          _______,          _______,      _______,     _______, _______, _______
   ),
 
-/* Qwerty (Gaming)
+/* Qwerty (Gaming) capslock in original pos, normal Tap-Dance for tab-escape so tab can also be held.
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │        │     │     │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │      │
+ * │Tab(Esc)│     │     │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
  * │Caps Lock│     │  S  │  D  │  F  │     │  H  │  J  │  K  │  L  │ '(;)┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
@@ -102,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_GAMING] = LAYOUT_all( /* Base */
-    TD(TES),  _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
+    TD(GES),  _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
     KC_CAPS, _______, KC_S,    KC_D,    KC_F,    _______, KC_H,    KC_J,    KC_K,    KC_L,    TD(CQT), _______,
     KC_LSFT, _______, _______, _______, KC_V,    KC_B,    _______, KC_N,    KC_M,    _______, _______, KC_RSFT,
     _______, _______, _______,          _______,          _______,      _______,     _______, _______, _______
@@ -110,7 +111,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /*
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │  Esc   │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │      │
+ * │   `    │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
  * │   Del   │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  \  │  =  │  [  │  ]  ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
@@ -128,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /*
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │ Grave  │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │      │
+ * │   ~    │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
  * │   Del   │Left │ Up  │Down │Right│     │     │  |  │  +  │  {  │  }  ┋Play │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
@@ -201,12 +202,6 @@ void matrix_scan_user() {
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case TD(CMN):
-            return 175;
-        case TD(CQT):
-            return 175;
-        case TD(TES):
-            return 175;
         case TD(LYR):
             return 250;
         default:
@@ -309,8 +304,16 @@ void tabesc_reset(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 qk_tap_dance_action_t tap_dance_actions[] = {
+  /*
+  There are two kinds of Tap-Dance Tab/Escapes here, one is for use in text,
+  and one is for use in games. TES has the ability to use Tabs instantly without
+  having to wait for TAPPING_TERM to pass and can be spammed, downside is that
+  Tab can't be held properly in some games, and we don't need to spam it anyway
+  as far as I know, so, just a regular DOUBLE Tap-Dance for the Gaming layer.
+  */
   [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
   [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
+  [GES] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, KC_ESC),
   [TES] = ACTION_TAP_DANCE_FN_ADVANCED(tabesc_per_tap, tabesc_finished, tabesc_reset),
   [LYR] = ACTION_TAP_DANCE_FN_ADVANCED(layers_per_tap, layers_finished, layers_reset)
 };
