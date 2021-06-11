@@ -36,7 +36,8 @@ enum equinox_keycodes {
 enum {
   CMN = 0,
   CQT,
-  LYR
+  TES,
+  LYR,
 };
 
 bool td_was_held = false;
@@ -47,23 +48,25 @@ static bool is_idle;
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data);
 void layers_reset(qk_tap_dance_state_t *state, void *user_data);
+void tabesc_finished(qk_tap_dance_state_t *state, void *user_data);
+void tabesc_reset(qk_tap_dance_state_t *state, void *user_data);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Colemak-DHk
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │  Tab   │  Q  │  W  │  F  │  P  │  B  │  J  │  L  │  U  │  Y  │  ;  │Bk Spc│
+ * │Tab(Esc)│  Q  │  W  │  F  │  P  │  B  │  J  │  L  │  U  │  Y  │ '(;)│Bk Spc│
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
  * │Backspace│  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  ┋Enter│
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │LShift┋  Z  │  X  │  C  │  D  │  V  │  ?  │  M  │  H  │  ,  │  .  ┋ RShift │
+ * │LShift┋  Z  │  X  │  C  │  D  │  V  │  ?  │  M  │  H  │ ,(-)│  .  ┋ RShift │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │L_Ctrl│     │ LAlt │    Space*    ┋Space┋  Backspace*  │QFTDLK│     │R_GUI │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  * * If split, change the middle button if applicable.
  */
   [_COLEMAK] = LAYOUT_all( /* Colemak-DH Base */
-    KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT), KC_BSPC,
+    TD(TES), KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT), KC_BSPC,
     KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
     KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_SLSH, KC_M,    KC_H,    TD(CMN), KC_DOT,  KC_RSPC,
     KC_LCTL, XXXXXXX, KC_LALT,          KC_SPC,           KC_SPC,       KC_BSPC,     TD(LYR), XXXXXXX, KC_RGUI
@@ -73,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
  * │        │     │     │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │         │     │  S  │  D  │  F  │     │  H  │  J  │  K  │  L  │  ;  ┋     │
+ * │         │     │  S  │  D  │  F  │     │  H  │  J  │  K  │  L  │ '(;)┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
  * │      ┋     │     │     │  V  │  B  │     │  N  │  M  │     │     ┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
@@ -91,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
  * │        │     │     │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │Caps Lock│     │  S  │  D  │  F  │     │  H  │  J  │  K  │  L  │  ;  ┋     │
+ * │Caps Lock│     │  S  │  D  │  F  │     │  H  │  J  │  K  │  L  │ '(;)┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
  * │      ┋     │     │     │  V  │  B  │     │  N  │  M  │     │     ┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
@@ -99,9 +102,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_GAMING] = LAYOUT_all( /* Base */
-    _______, _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
+    TD(TES),  _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
     KC_CAPS, _______, KC_S,    KC_D,    KC_F,    _______, KC_H,    KC_J,    KC_K,    KC_L,    TD(CQT), _______,
-    _______, _______, _______, _______, KC_V,    KC_B,    _______, KC_N,    KC_M,    _______, _______, _______,
+    KC_LSFT, _______, _______, _______, KC_V,    KC_B,    _______, KC_N,    KC_M,    _______, _______, KC_RSFT,
     _______, _______, _______,          _______,          _______,      _______,     _______, _______, _______
   ),
 
@@ -109,53 +112,53 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
  * │  Esc   │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │  Grave  │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  \  │  =  │  [  │  ]  ┋     │
+ * │   Del   │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  \  │  =  │  [  │  ]  ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │ Ins │ Del │Pg Up│Pg Dn┋        │
+ * │      ┋ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │Home │ End │Pg Up│Pg Dn┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_SYMBOL] = LAYOUT_all( /* Symbol Keys */
-    KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-    KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_BSLS, KC_EQL,  KC_LBRC, KC_RBRC, _______,
-    _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  KC_DEL,  KC_PGUP, KC_PGDN, _______,
+    KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
+    KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_BSLS, KC_EQL,  KC_LBRC, KC_RBRC, _______,
+    _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_HOME, KC_END,  KC_PGUP, KC_PGDN, _______,
     _______, _______, _______,          _______,          _______,     _______,      _______, _______, _______
   ),
 
 /*
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │  Esc   │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │      │
+ * │ Grave  │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │  Tilde  │Left │ Up  │Down │Right│     │     │  |  │  +  │  {  │  }  ┋Play │
+ * │   Del   │Left │ Up  │Down │Right│     │     │  |  │  +  │  {  │  }  ┋Play │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋Prev │Vol -│Vol +│Next │     │     │PScrn│Pause│Home │ End ┋        │
+ * │      ┋Prev │Vol -│Vol +│Next │     │     │     │     │PScrn│Pause┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_SYMBL2] = LAYOUT_all( /* Shifted Symbol, Media and other Keys */
-    KC_ESC,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-    KC_TILD, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX, KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR, KC_MPLY,
-    _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX, KC_PSCR, KC_PAUS, KC_HOME, KC_END,  _______,
+    KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
+    KC_DEL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX, KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR, KC_MPLY,
+    _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, KC_PAUS, _______,
     _______, _______, _______,          _______,          _______,     _______,      _______, _______, _______
   ),
 
 /* Keeping this layer non-transparent.
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │ Reset  │Qwrty│     │     │     │Nm/TK│     │     │     │     │     │      │
+ * │ Reset  │Qwrty│GENrm│     │     │Nm/TK│     │     │     │     │     │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │         │     │     │     │     │Game │     │TNKRO│     │     │     ┋     │
+ * │         │AGSwp│GESwp│     │     │Game │     │TNKRO│     │     │     ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋     │     │Colmk│BlBth│BlStp│     │     │     │     │     ┋        │
+ * │      ┋     │     │Colmk│     │     │     │     │     │     │     ┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_ADJUST] = LAYOUT_all( /* Board Functions */
-    RESET,   QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX, NUMPAD,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, NK_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, COLEMAK, BL_BRTG, BL_STEP, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    RESET,   QWERTY,  GE_NORM, XXXXXXX, XXXXXXX, NUMPAD,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, AG_TOGG, GE_SWAP, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, NK_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, XXXXXXX, XXXXXXX
   ),
 
@@ -201,6 +204,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case TD(CMN):
             return 175;
         case TD(CQT):
+            return 175;
+        case TD(TES):
             return 175;
         case TD(LYR):
             return 250;
@@ -279,9 +284,34 @@ void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
   td_was_held = false;
 }
 
+void tabesc_per_tap(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count > 1) {
+    register_code(KC_TAB);
+    if (!state->pressed) {
+      unregister_code(KC_TAB);
+    }
+  }
+}
+
+void tabesc_finished(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    if (state->pressed) {
+      register_code(KC_ESC);
+    } else {
+      register_code(KC_TAB);
+    }
+  }
+}
+
+void tabesc_reset(qk_tap_dance_state_t *state, void *user_data) {
+  unregister_code(KC_ESC);
+  unregister_code(KC_TAB);
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
   [CMN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),
   [CQT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_SCLN),
+  [TES] = ACTION_TAP_DANCE_FN_ADVANCED(tabesc_per_tap, tabesc_finished, tabesc_reset),
   [LYR] = ACTION_TAP_DANCE_FN_ADVANCED(layers_per_tap, layers_finished, layers_reset)
 };
 
