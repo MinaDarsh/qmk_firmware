@@ -113,17 +113,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
  * │   `    │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │   Del   │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  \  │  =  │  [  │  ]  ┋     │
+ * │   Del   │Left │ Up  │Down │Right│     │Pause│  \  │  =  │  [  │  ]  ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │Home │ End │Pg Up│Pg Dn┋        │
+ * │      ┋Prev │Vol -│Vol +│Next │PScrn│ScLck┋Home │ End │Pg Up│Pg Dn┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
-  [_SYMBOL] = LAYOUT_all( /* Symbol Keys */
+  [_SYMBOL] = LAYOUT_all( /* Symbol Keys, Media and other Keys */
     KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-    KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_BSLS, KC_EQL,  KC_LBRC, KC_RBRC, _______,
-    _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_HOME, KC_END,  KC_PGUP, KC_PGDN, _______,
+    KC_DEL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, KC_PAUS, KC_BSLS, KC_EQL,  KC_LBRC, KC_RBRC, _______,
+    _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_PSCR, KC_SLCK, KC_HOME, KC_END,  KC_PGUP, KC_PGDN, _______,
     _______, _______, _______,          _______,          _______,     _______,      _______, _______, _______
   ),
 
@@ -131,25 +131,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
  * │   ~    │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │   Del   │Left │ Up  │Down │Right│     │     │  |  │  +  │  {  │  }  ┋Play │
+ * │   Del   │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │  |  │  +  │  {  │  }  ┋Play │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋Prev │Vol -│Vol +│Next │     │     │     │     │PScrn│Pause┋        │
+ * │      ┋ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │     │     │     │     │        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
-  [_SYMBL2] = LAYOUT_all( /* Shifted Symbol, Media and other Keys */
+  [_SYMBL2] = LAYOUT_all( /* Shifted Symbol, F-Keys */
     KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
-    KC_DEL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX, KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR, KC_MPLY,
-    _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, KC_PAUS, _______,
+    KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR, KC_MPLY,
+    _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
     _______, _______, _______,          _______,          _______,     _______,      _______, _______, _______
   ),
 
 /* Keeping this layer non-transparent.
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │ Reset  │Qwrty│GENrm│     │     │Nm/TK│     │     │     │     │     │      │
+ * │ Reset  │Qwrty│     │     │     │Nm/TK│     │     │     │     │     │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │         │AGSwp│GESwp│     │     │Game │     │TNKRO│     │     │     ┋     │
+ * │         │AGSwp│     │     │     │Game │     │TNKRO│     │     │     ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
  * │      ┋     │     │Colmk│     │     │     │     │     │     │     ┋        │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
@@ -157,8 +157,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_ADJUST] = LAYOUT_all( /* Board Functions */
-    RESET,   QWERTY,  GE_NORM, XXXXXXX, XXXXXXX, NUMPAD,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, AG_TOGG, GE_SWAP, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, NK_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    RESET,   QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX, NUMPAD,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, AG_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, NK_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, XXXXXXX, XXXXXXX
   ),
