@@ -4,25 +4,30 @@ A personal keymap for the ION x Ai03 Equinox WKL, using split Shifts, full Space
 
 ## Persistent layers
 
-It features Persistent layers for Colemak-DHk (default) and two Qwerty layouts, one normal, and one more optimized for gaming. These layers remain set even after un-plugging your keyboard. Due to my preference and to keep the keys somewhat consistent on the physical board, the Angle Mod is also applied to the Qwerty layouts.
+It features Persistent layers for Colemak-DHk (default) and two Qwerty layouts, one normal, and one more optimized for gaming. These layers remain set even after reconnecting your keyboard. Due to my preference and to keep the keys somewhat consistent on the physical board, the Angle Mod is also applied to the Qwerty layouts.
 
 ![Colemak](https://i.imgur.com/Hp4YR4y.png)
-_Colemak-DHk, Backspace is where Capslock normally is, but if using_
-_a 1.25U Enter and 1.5U Backspace, it can be in the top-right too._
-_If using split Space, all will be space, so change that too for your own map._
 
-Note: I chose not to layer some of the more commonly used keys, dash and colon. These can be accessed by double-tapping the keys that you see in the keymap that have their Tap Dance key in parenthesis. Holding Shift will send their shifted key. So for example, if you want to type a underscore or colon, hold Shift, and double-tap quote or comma fast enough. (Tapping Term can be set in `config.h`)
+_Colemak-DHk, Backspace is where Capslock normally is._
+
+Note: I chose not to layer some of the more commonly used keys, dash and colon. These can be accessed by double-tapping the keys that you see in the keymap that have their Tap Dance key in parenthesis. Holding Shift will send their shifted variant. So for example, if you want to type a underscore or colon, hold Shift, and double-tap quote or comma fast enough. (Tapping Term can be set in `config.h`)
+
+Tab is a special kind of Tap Dance key, as it will send Tab on a short press, Escape on a long one. If hitting the key multiple times rapidly, it'll just send Tab, even if holding the last tap. (Which will be like holding Tab down for the duration of the key press.) This is so that it can still be used to quickly insert Tabs when scripting without having the delay that the Tapping Term would impose.
 
 
 ![Qwerty](https://i.imgur.com/tPjsHYp.png)
+
 _Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout._
 
 ![G4MUR!](https://i.imgur.com/BrRTvgk.png)
+
 _Qwerty, but for gaming, left Backspace is now Caps Lock once more as some games use this._
+
+With the gaming layer, the Tap Dance key for Tab/Escape is a normal Double Tap Dance again, so you don't get Escape by holding it, but by tapping it twice. This way you can still hold Tab as that is more finnicky with the special Tap Dance Tab/Escape described prior in games.
 
 ## Additional non-persistent layers for numbers, symbols, numpad and other functions
 
-You may have noticed one Function key in the keymap overviews above, but four extra layers (the fourth being accessed differently, though), just holding the Function key will switch to the _symbols_ layer, tapping it once followed by a hold will switch to the _shifted symbols_ layer, lastly, tapping trice holding on the last tap will enter the _adjust_ layer. If you omit holding on the last press, the keyboard will toggle these layers rather than waiting for you to let go of the key in order to go back to the main layer. So for example, tapping twice brings you to the _shifted symbols_ layer, and stays there (until idle timeout), tap twice again to go back to the main layer. You can also hop between layers, so from _shifted symbols_ you can also go to _symbols_ by tapping once or _adjust_ by tapping trice from there. When you want to get back to main, there are three ways:
+You may have noticed one key labeled `MO/LT` in the keymap overviews above, but four extra layers (the fourth being accessed differently, though), just holding the `MO/LT` key will switch to the _symbols_ layer, tapping it once followed by a hold will switch to the _shifted symbols_ layer, lastly, tapping trice holding on the last tap will enter the _adjust_ layer. If you omit holding on the last press, the keyboard will toggle these layers rather than waiting for you to let go of the key in order to go back to the main layer. (Hence the `MO/LT` name.) So for example, tapping twice brings you to the _shifted symbols_ layer, and stays there (until idle timeout), tap twice again to go back to the main layer. You can also hop between layers, so from _shifted symbols_ you can also go to _symbols_ by tapping once or _adjust_ by tapping trice from there. When you want to get back to main, there are three ways:
 
 * If you know which layer you're on, tap the amount you used to get on that layer again.
 * If you don't know it, you can either hold the button longer than Tapping Term and let go. (250ms for this key specifically.)
@@ -30,26 +35,29 @@ You may have noticed one Function key in the keymap overviews above, but four ex
 * Last but not least, if you do nothing for a while the keyboard will switch back to the main layer by itself. (See Additional Notes.)
 
 ![Symbols and Media](https://i.imgur.com/90yvQdA.png)
-_Symbols layer, though it mostly offers numbers and F-row keys, etc._
+
+_Symbols layer, numbers, symbols and media keys are housed here._
 
 ![Shifted Symbols and Function Keys](https://i.imgur.com/22XjjQ2.png)
+
 _Shifted Symbols Layer, for when two taps is easier than holding Shift as well._
-_Also the remainder of the Navigation keys can be found here as well as Media keys._
+_Function keys are here as well._
 
 ![Keyboard Settings](https://i.imgur.com/KOQUmdD.png)
-_Adjust layer, controlling keyboard settings like layout and backlighting, as well as enabling DFU Mode._
-_Blank keys on just this layer are not transparent here but disabled, they don't do anything when pressed._
+
+_Adjust layer, controlling keyboard settings like layout, NKRO and enabling DFU Mode._
+_Keys labeled N/A here are disabled, they don't do anything when pressed._
 
 To clarify:
 
-* Qwrty, Colmk and Game switch to Qwerty, Colemak-DHk and Gaming layout respectively.
-* BlBth toggles Backlight Breathing mode and BlStp cycles through backlight brightness levels. (off, level 1 to 5 in brightness.)
-* Nm/TK switches over to the Numpad layer, or TenKey. (Hence I put it on the T-key, assuming Qwerty.(May move in the future.))
-* TNKRO toggles N-key Rollover, you may need to disable it if using this keyboard in your computer's BIOS.
+* Qwerty, Colemak and Game switch layouts that stay even when the board loses power.
+* Numpad switches over to the Numpad layer, or TenKey. (Hence I put it on the T-key, assuming Qwerty.(May move in the future.))
+* NKRO toggles N-key Rollover, you may need to disable it if using this keyboard in your computer's BIOS.
 
 ![Numpad Layer](https://i.imgur.com/7llBeae.png)
+
 _Numpad layer, note that the Function key is used for Numpad 0._
-_Switching back is done by hitting LveNm (Leave Numpad)_
+_Switching back is done by hitting Leave Num. (Numpad.)_
 _or by waiting for Layer Idle Timeout to trigger._
 
 ## Additional notes

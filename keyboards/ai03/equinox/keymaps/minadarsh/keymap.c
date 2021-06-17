@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
  * │LShift┋  Z  │  X  │  C  │  D  │  V  │  ?  │  M  │  H  │ ,(-)│  .  ┋ RShift │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
- * │L_Ctrl│     │ LAlt │    Space*    ┋Space┋  Backspace*  │QFTDLK│     │R_GUI │
+ * │L_Ctrl│     │ LAlt │    Space*    ┋Space┋  Backspace*  │MO/LT │     │R_GUI │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  * * If split, change the middle button if applicable.
  */
