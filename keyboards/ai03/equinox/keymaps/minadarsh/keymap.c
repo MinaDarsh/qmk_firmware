@@ -103,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_GAMING] = LAYOUT_all( /* Base */
-    TD(GES),  _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
+    TD(GES), _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
     KC_CAPS, _______, KC_S,    KC_D,    KC_F,    _______, KC_H,    KC_J,    KC_K,    KC_L,    TD(CQT), _______,
     KC_LSFT, _______, _______, _______, KC_V,    KC_B,    _______, KC_N,    KC_M,    _______, _______, KC_RSFT,
     _______, _______, _______,          _______,          _______,      _______,     _______, _______, _______
