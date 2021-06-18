@@ -4,9 +4,12 @@ A personal keymap for the ION x Ai03 Equinox WKL, using split Shifts, full Space
 
 ## Persistent layers
 
+There are three main layers, or Persistent Layers, these stay selected even if reconnecting the board:
 * Colemak-DHk layer, this one is the default.
 * Qwerty, only changes the layout of the Alpha keys, Backspace still on Caps Lock.
 * Gaming, same as Qwerty, but Caps Lock restored (some games need this) and Tap Dance Tab is different. (More further on.)
+
+Colemak-DHk:
 
 ![Colemak](https://i.imgur.com/Hp4YR4y.png)
 
@@ -22,16 +25,21 @@ I chose not to layer some of the more commonly used keys, dash and colon. These 
 Tab is a special kind of Tap Dance key, as it will send Tab on a short press, Escape on a long one. If hitting the key multiple times rapidly, it'll just send Tab, even if holding the last tap. (Which will be like holding Tab down for the duration of the key press.) This is so that it can still be used to quickly insert Tabs when scripting without having the delay that the Tapping Term would impose.
 
 
+Qwerty:
+
 ![Qwerty](https://i.imgur.com/tPjsHYp.png)
 
 _Qwerty, same as Colemak-DH, but with your good ol' typewriter optimized layout._
+
+
+Gaming:
 
 ![G4MUR!](https://i.imgur.com/BrRTvgk.png)
 
 _Qwerty, but for gaming, left Backspace is now Caps Lock once more as some games use this._
 
 
-With the gaming layer, the Tap Dance key for Tab/Escape is a normal Double Tap Dance again, so you don't get Escape by holding it, but by tapping it twice. This way you can still hold Tab as that is more finnicky with the special Tap Dance Tab/Escape described prior in games.
+_* With the gaming layer, the Tap Dance key for Tab/Escape is a normal Double Tap Dance again, so you don't get Escape by holding it, but by tapping it twice. This way you can still hold Tab as that is more finnicky with the special Tap Dance Tab/Escape described prior in games._
 
 ## Additional non-persistent layers for numbers, symbols, numpad and other functions
 
