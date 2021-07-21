@@ -99,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______,      _______,     _______, _______, _______, _______, _______
 ),
 
-/* Lower
+/* Raise
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
  * │     │  `  │  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │     │
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
@@ -110,14 +110,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * │     │     │     │     │     │     │     ┋     │     │     │     │     │     │
  * └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
  */
-[_LOWER] = LAYOUT(
+[_RAISE] = LAYOUT(
     _______, KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
     _______, KC_DEL,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSCR, KC_PAUS, KC_BSLS, KC_EQL,  KC_LBRC, KC_RBRC, _______,
     _______, _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_SLCK, KC_HOME, KC_END,  KC_PGUP, KC_PGDN, _______,
     _______, _______, _______, _______, _______, _______,      _______,     _______, _______, _______, _______, _______
 ),
 
-/* Raise
+/* Lower
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
  * │     │  ~  │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │     │
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
@@ -128,7 +128,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * │     │     │     │     │     │     │     ┋     │     │     │     │     │     │
  * └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
  */
-[_RAISE] = LAYOUT(
+[_LOWER] = LAYOUT(
   _______, KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
   _______, KC_DEL,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR, _______,
   _______, _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
@@ -147,13 +147,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
  */
 [_ADJUST] = LAYOUT(
-    XXXXXXX, RESET,   QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, AG_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, NK_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, RESET,   QWERTY,  EF_INC,  ES_INC,  BR_INC,  XXXXXXX, XXXXXXX, XXXXXXX, H1_INC,  S1_INC,  H2_INC,  S2_INC,
+    XXXXXXX, XXXXXXX, AG_TOGG, EF_DEC,  ES_DEC,  BR_DEC,  GAMING,  XXXXXXX, NK_TOGG, H1_DEC,  S1_DEC,  H2_DEC,  S2_DEC,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
 )
 
 };
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+}
 
 void tabesc_per_tap(qk_tap_dance_state_t *state, void *user_data) {
   if (state->count > 1) {
@@ -192,10 +196,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [GES] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, KC_ESC),
   [TES] = ACTION_TAP_DANCE_FN_ADVANCED(tabesc_per_tap, tabesc_finished, tabesc_reset)
 };
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
-}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
