@@ -47,9 +47,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Colemak-DHk
  * ┌─────┐  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
- * │Home │  │ Tab │  Q  │  W  │  F  │  P  │  B  │  J  │  L  │  U  │  Y  │'(;) │ Del │
+ * │Home │  │Tb/Es│  Q  │  W  │  F  │  P  │  B  │  J  │  L  │  U  │  Y  │'(;) │ Del │
  * ├─────┤  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
- * │Pg Up│  │ Esc │  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  │Enter│
+ * │Pg Up│  │BkSpc│  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  │Enter│
  * ├─────┤  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
  * │Pg Dn│  │LShft│  Z  │  X  │  C  │  D  │  V  │  M  │  H  │,(-) │  .  │  /  │RShft│
  * ├─────┤  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
@@ -81,22 +81,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,   _______, _______, _______, _______, _______,      _______,     _______, _______, _______, _______, _______
 ),
 
-/* Qwerty (Gaming) capslock in original pos, normal Tap-Dance for tab-escape so tab can also be held.
+/* Qwerty (Gaming) capslock in original pos, normal Tap-Dance for tab-escape so tab can also be held, GUI and App Disabled.
  * ┌─────┐  ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
- * │  1  │  │     │     │     │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │     │
+ * │  1  │  │Tb/Es│     │     │     │     │     │     │     │     │     │     │     │
  * ├─────┤  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
- * │  2  │  │CapsL│     │  S  │  D  │  F  │     │  H  │  J  │  K  │  L  │ '(;)│     │
+ * │  2  │  │CapsL│     │     │     │     │     │     │     │     │     │     │     │
  * ├─────┤  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
- * │  3  │  │     │     │     │     │  V  │  B  │  N  │  M  │     │     │     │     │
+ * │  3  │  │     │     │     │     │     │     │     │     │     │     │     │     │
  * ├─────┤  ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
- * │  4  │  │     │     │     │     │     │     ┋     │     │     │     │     │     │
+ * │  4  │  │     │ N/A │ N/A │     │     │     ┋     │     │     │     │     │     │
  * └─────┘  └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
  */
 [_GAMING] = LAYOUT(
-    KC_1,      TD(GES), _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
-    KC_2,      KC_CAPS, _______, KC_S,    KC_D,    KC_F,    _______, KC_H,    KC_J,    KC_K,    KC_L,    TD(CQT), _______,
-    KC_3,      _______, _______, _______, _______, KC_V,    KC_B,    KC_N,    KC_M,    _______, _______, _______, _______,
-    KC_4,      _______, _______, _______, _______, _______,      _______,     _______, _______, _______, _______, _______
+    KC_1,      TD(GES), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    KC_2,      KC_CAPS, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    KC_3,      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    KC_4,      _______, XXXXXXX, XXXXXXX, _______, _______,      _______,     _______, _______, _______, _______, _______
 ),
 
 /* Raise
@@ -202,18 +202,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case COLEMAK:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_COLEMAK);
+        if (layer_state_is(_GAMING)) {
+          layer_off(_GAMING);
+        }
       }
       return false;
       break;
     case QWERTY:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_QWERTY);
+        if (layer_state_is(_GAMING)) {
+          layer_off(_GAMING);
+        }
       }
       return false;
       break;
     case GAMING:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_GAMING);
+        // set_single_persistent_default_layer(_GAMING);
+        if (!layer_state_is(_GAMING)) {
+          layer_on(_GAMING);
+        }
       }
       return false;
       break;
