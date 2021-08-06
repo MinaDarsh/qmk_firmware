@@ -19,7 +19,6 @@ enum equinox_layers {
   _COLEMAK,
   _QWERTY,
   _GAMING,
-  _NUMPAD,
   _SYMBOL,
   _SYMBL2,
   _ADJUST
@@ -28,9 +27,7 @@ enum equinox_layers {
 enum equinox_keycodes {
   COLEMAK = SAFE_RANGE,
   QWERTY,
-  GAMING,
-  NUMPAD,
-  LEAVENM
+  GAMING
 };
 
 enum {
@@ -60,13 +57,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
  * │Backspace│  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  ┋Enter│
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │LShift┋  Z  │  X  │  C  │  D  │  V  │  ?  │  M  │  H  │ ,(-)│  .  ┋ RShift │
+ * │LCShft┋  Z  │  X  │  C  │  D  │  V  │  ?  │  M  │  H  │ ,(-)│  .  ┋ RCShft │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │L_Ctrl│     │ LAlt │    Space*    ┋Space┋  Backspace*  │MO/LT │     │R_GUI │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  * * If split, change the middle button if applicable.
  */
-  [_COLEMAK] = LAYOUT_all( /* Colemak-DH Base */
+  [_COLEMAK] = LAYOUT_all(
     TD(TES), KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT), KC_BSPC,
     KC_BSPC, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,    KC_K,    KC_N,    KC_E,    KC_I,    KC_O,    KC_ENT,
     KC_LSPO, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_SLSH, KC_M,    KC_H,    TD(CMN), KC_DOT,  KC_RSPC,
@@ -84,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
-  [_QWERTY] = LAYOUT_all( /* Base */
+  [_QWERTY] = LAYOUT_all(
     _______, _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
     _______, _______, KC_S,    KC_D,    KC_F,    _______, KC_H,    KC_J,    KC_K,    KC_L,    TD(CQT), _______,
     _______, _______, _______, _______, KC_V,    KC_B,    _______, KC_N,    KC_M,    _______, _______, _______,
@@ -93,19 +90,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Qwerty (Gaming) capslock in original pos, normal Tap-Dance for tab-escape so tab can also be held.
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │Tab(Esc)│     │     │  E  │  R  │  T  │  Y  │  U  │  I  │  O  │  P  │      │
+ * │Tab(Esc)│     │     │     │     │     │     │     │     │     │     │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │Caps Lock│     │  S  │  D  │  F  │     │  H  │  J  │  K  │  L  │ '(;)┋     │
+ * │Caps Lock│     │     │     │     │     │     │     │     │     │     ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋     │     │     │  V  │  B  │     │  N  │  M  │     │     ┋        │
+ * │LShift┋     │     │     │     │     │     │     │     │     │     ┋ RShift │
  * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
  * │      │     │      │              ┋     ┋              │      │     │      │
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
-  [_GAMING] = LAYOUT_all( /* Base */
-    TD(GES), _______, _______, KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
-    KC_CAPS, _______, KC_S,    KC_D,    KC_F,    _______, KC_H,    KC_J,    KC_K,    KC_L,    TD(CQT), _______,
-    KC_LSFT, _______, _______, _______, KC_V,    KC_B,    _______, KC_N,    KC_M,    _______, _______, KC_RSFT,
+  [_GAMING] = LAYOUT_all(
+    TD(GES), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    KC_CAPS, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    KC_LSFT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_RSFT,
     _______, _______, _______,          _______,          _______,      _______,     _______, _______, _______
   ),
 
@@ -147,7 +144,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Keeping this layer non-transparent.
  * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │ Reset  │Qwrty│     │     │     │Nm/TK│     │     │     │     │     │      │
+ * │ Reset  │Qwrty│     │     │     │     │     │     │     │     │     │      │
  * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
  * │         │AGSwp│     │     │     │Game │     │TNKRO│     │     │     ┋     │
  * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
@@ -157,28 +154,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
  */
   [_ADJUST] = LAYOUT_all( /* Board Functions */
-    RESET,   QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX, NUMPAD,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    RESET,   QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, AG_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, GAMING,  XXXXXXX, NK_TOGG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,     XXXXXXX,      _______, XXXXXXX, XXXXXXX
-  ),
-
-/* Who says 40% can't have a numpad?
- * ┌────────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬──────┐
- * │  Tab   │     │     │     │     │LveNm│NmLck│Num 7│Num 8│Num 9│Num +│      │
- * ├────────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┐-----│
- * │Backspace│     │     │     │     │     │NmAst│Num 4│Num 5│Num 6│Num -┋NEntr│
- * ├──────┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┤
- * │      ┋     │     │     │     │     │     │NmSlh│Num 1│Num 2│Num 3┋        │
- * ├──────┼─────┼─────┴┬────┴─────┴───┬─┴───┬─┴─────┴─────┴┬────┴─┬───┴─┬──────┤
- * │      │     │      │              ┋     ┋              │Num 0 │     │Num Dt│
- * └──────┘-----└──────┴──────────────┴─────┴──────────────┴──────┘-----└──────┘
- */
-  [_NUMPAD] = LAYOUT_all( /* Numpad */
-    KC_TAB,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LEAVENM, KC_NLCK, KC_P7,   KC_P8,   KC_P9,   KC_PPLS, _______,
-    KC_BSPC, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAST, KC_P4,   KC_P5,   KC_P6,   KC_PMNS, KC_PENT,
-    _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PSLS, KC_P1,   KC_P2,   KC_P3,   _______,
-    _______, XXXXXXX, _______,          _______,          _______,     _______,      KC_P0,   XXXXXXX, KC_PDOT
   )
 };
 
@@ -186,12 +165,11 @@ void matrix_scan_user() {
   if (!is_idle) {
     if (timer_elapsed(timer) >= (uint16_t) LAYER_IDLE_TIMEOUT * 1000) {
       is_idle = true;
-      if (layer_state_is(_SYMBOL) || layer_state_is(_SYMBL2) || layer_state_is(_ADJUST) || layer_state_is(_NUMPAD)) {
+      if (layer_state_is(_SYMBOL) || layer_state_is(_SYMBL2) || layer_state_is(_ADJUST)) {
         if (!td_was_held) {
           layer_off(_SYMBOL);
           layer_off(_SYMBL2);
           layer_off(_ADJUST);
-          layer_off(_NUMPAD);
           td_is_on_sm2 = false;
           td_is_on_adj = false;
         }
@@ -327,31 +305,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case COLEMAK:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_COLEMAK);
+        if (layer_state_is(_GAMING)) {
+          layer_off(_GAMING);
+        }
       }
       return false;
       break;
     case QWERTY:
       if (record->event.pressed) {
         set_single_persistent_default_layer(_QWERTY);
+        if (layer_state_is(_GAMING)) {
+          layer_off(_GAMING);
+        }
       }
       return false;
       break;
     case GAMING:
       if (record->event.pressed) {
-        set_single_persistent_default_layer(_GAMING);
-      }
-      return false;
-      break;
-    case NUMPAD:
-      if (record->event.pressed) {
-        layer_off(_ADJUST); // stuff else goes wrong if we toggle and then try to switch to numpad
-        layer_on(_NUMPAD);
-      }
-      return false;
-      break;
-    case LEAVENM:
-      if (record->event.pressed) {
-        layer_off(_NUMPAD);
+        if (!layer_state_is(_GAMING)) {
+          layer_on(_GAMING);
+        }
       }
       return false;
       break;
