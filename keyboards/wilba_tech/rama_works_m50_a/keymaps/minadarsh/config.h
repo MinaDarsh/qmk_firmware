@@ -15,7 +15,7 @@
 #define RGB_BACKLIGHT_DISABLE_WHEN_USB_SUSPENDED 1
 
 // disable backlight after timeout in minutes, 0 = no timeout
-#define RGB_BACKLIGHT_DISABLE_AFTER_TIMEOUT 5
+#define RGB_BACKLIGHT_DISABLE_AFTER_TIMEOUT 30
 
 // the default color1 and color2
 #define RGB_BACKLIGHT_COLOR_1 { .h = 198, .s = 204 }
