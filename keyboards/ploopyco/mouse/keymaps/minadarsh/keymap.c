@@ -20,28 +20,32 @@
 
 // definitions
 
-#define RECORD_SIZE 4
 #ifndef PLOOPY_DRAGMEDIA_DPI
 #define PLOOPY_DRAGMEDIA_DPI 800
 #endif
+
+#define RECORD_SIZE 50
+#define TRAVEL_DISTANCE 400
+#define DIR_COUNT_NUMBER 8
+#define DIR_COUNT_MEDIA 4
+#define CLICK_TIMEOUT 1000
+#define NO_MOVE 300
 
 // enumerators
 
 enum extra_ploopy_keycodes {
   DRAG_MEDIA = PLOOPY_SAFE_RANGE,
-  OMNI_WHEEL
+  OMNI_WHEEL,
 };
 
-// variables
+typedef enum {
+  eModeNormal,
+  eModeNumbers,
+  eModeMedia,
+} mouse_modus_enum;
 
-bool is_drag_media = false;
-bool is_omni_wheel = false;
-bool btn_pressed = false;
-int move_array[10][2];
-int save_row = 0;
-int aver_x, aver_y = 0;
-int pointer_heading;
-static uint16_t timer;
+mouse_modus_enum mouse_mode = eModeNormal;
+uint32_t max_length = 0;
 
 // functions
 
@@ -50,136 +54,148 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // defaults: most left, left, middle, right, most right, lower side, upper side, underneath scoll
 };
 
+const uint8_t numbers_direction_map[DIR_COUNT_NUMBER] = {KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8};
+const uint8_t media_direction_map[DIR_COUNT_MEDIA] = {KC_VOLU, KC_MNXT, KC_VOLD, KC_MPRV};
+
 void keyboard_post_init_user(void) {
   #ifdef CONSOLE_ENABLE
     debug_enable=true;
   #endif
-  timer = timer_read();
-}
-
-void smoothen_pointer_movement(int x, int y) {
-  move_array[save_row][0] = x;
-  move_array[save_row][1] = y;
-  save_row = (save_row + 1) % RECORD_SIZE;
-  for(int j=0;j<RECORD_SIZE;j++) {
-    aver_x += move_array[j][0];
-    aver_y += move_array[j][1];
-  }
-  aver_x /= RECORD_SIZE;
-  aver_y /= RECORD_SIZE;
-  if (debug_enable) dprintf("Mouse R/L: %d, Mouse U/D: %d. Filtered, R/L: %d, U/D: %d\n", x, y, aver_x, aver_y); // debug
 }
 
 // convert x,y offset to a cardianal direction
 // 1 = North, 2 = Northwest, 3 = West, etc.
-int direction(int x, int y)
-{
+int direction(int x, int y, int dir_count) {
+    // calculate rotation offset
+    float part_size = 2.0f / dir_count;
+    float offset = 0.5f + (part_size / 2.0f);
     // get angle in radians assuming starting point is 0,0 (scale: -1*pi ~ 1*pi)
     float angle = atan2(y, x);
     // devide by pi for some more managable numbers (scale: -1 ~ 1)
     angle = angle / M_PI;
     // add an offset of 1 so we don't have negative results. (scale: 0 ~ 2)
-    angle = angle + 1;
-    // rotate by 3/16 of the circle (2/16*3 = 0.375) so "0" points to NNW.
-    angle = angle - 0.375;
-    if(angle < 0) angle = angle + 2;
+    angle = angle + offset;
+    while(angle < 0) angle = angle + 2;
     // scale to 8 equal parts and cast to int.
-    return (int)(angle / 0.25);
+    int out = (int)(angle / part_size);
+    if (out >= dir_count) out = 0;
+    return out;
 }
 
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-  if (!(is_drag_media || is_omni_wheel)) {
-    btn_pressed = false;
-    return mouse_report;
+  static int x_buff, y_buff, sample_count, loop_count, timeout = 0;
+  static mouse_modus_enum old_mode = eModeNormal;
+
+  if (mouse_mode != old_mode) {
+    x_buff = 0;
+    y_buff = 0;
+    sample_count = 0;
+    loop_count = 0;
+    timeout = 0;
+    old_mode = mouse_mode;
   }
-  smoothen_pointer_movement(mouse_report.x, mouse_report.y);
-  // if (debug_enable) dprintf("Mouse R/L: %d, Mouse U/D: %d\n", mouse_report.x, mouse_report.y); // debug
-  // if (is_drag_media) {
-  //   if (abs(aver_x) > abs(aver_y) && abs(aver_x) > 3) {
-  //     if (timer_elapsed(timer) < BTN_TAP_TIMEOUT) {
-  //       mouse_report.x = 0;
-  //       return mouse_report;
-  //     }
-  //     if (aver_x > 0) {
-  //       tap_code(KC_MNXT);
-  //     } else {
-  //       tap_code(KC_MPRV);
-  //     }
-  //     timer = timer_read();
-  //   } else {
-  //     for(int i=0;i<abs(mouse_report.y);i+=10) {
-  //       if (mouse_report.y>0) {
-  //         tap_code(KC_VOLD);
-  //       } else {
-  //         tap_code(KC_VOLU);
-  //       }
-  //     }
-  //   }
-  // }
-  if (is_omni_wheel) {
-    if (btn_pressed == false && (abs(aver_x) > 0 || abs(aver_y) > 0)) {
-      pointer_heading = direction(aver_x, aver_y);
-      if (debug_enable) dprintf("Direction: %d\n", pointer_heading);
-      switch (pointer_heading) {
-        case 0:
-          tap_code(KC_1);
-          break;
-        case 1:
-          tap_code(KC_2);
-          break;
-        case 2:
-          tap_code(KC_3);
-          break;
-        case 3:
-          tap_code(KC_4);
-          break;
-        case 4:
-          tap_code(KC_5);
-          break;
-        case 5:
-          tap_code(KC_6);
-          break;
-        case 6:
-          tap_code(KC_7);
-          break;
-        case 7:
-          tap_code(KC_8);
-          break;
+
+  if (mouse_mode == eModeNormal) return mouse_report;
+
+  if (timeout > 0) {
+    timeout++;
+    if (timeout >= CLICK_TIMEOUT) {
+      timeout = 0;
       }
-      btn_pressed = true;
-      // save_row = 0;
-      // memset(move_array, 0, sizeof(move_array));
+    } else {
+      x_buff += mouse_report.x;
+      y_buff += mouse_report.y;
+      sample_count++;
+
+      if (sample_count >= RECORD_SIZE) {
+        loop_count++;
+
+        uint32_t x_abs = abs(x_buff);
+        uint32_t y_abs = abs(y_buff);
+        uint32_t length = sqrt( (x_abs * x_abs) + (y_abs * y_abs) );
+        if (length > max_length) max_length = length;
+
+        // if (debug_enable) dprintf("x: %d y: %d\n", x_buff, y_buff);
+        if (debug_enable) dprintf("len: %d\n", length);
+
+        if (length > TRAVEL_DISTANCE) {
+          uint8_t dir;
+          if (mouse_mode == eModeNumbers) {
+            dir = direction(x_buff, y_buff, DIR_COUNT_NUMBER);
+            // if (debug_enable) dprintf("Number %d\n", numbers_direction_map[dir]);
+            tap_code(numbers_direction_map[dir]);
+          } else {
+            dir = direction(x_buff, y_buff, DIR_COUNT_MEDIA);
+            // if (debug_enable) dprintf("Media %d\n", media_direction_map[dir]);
+            if ((dir == 0) || (dir == 2)) {
+              int mult = 50 - loop_count;
+              if (mult < 0) mult = 0;
+              for (int i = 0; i < mult; i++) {
+                tap_code(media_direction_map[dir]);
+              }
+            } else {
+              tap_code(media_direction_map[dir]);
+            }
+          }
+          x_buff = 0;
+          y_buff = 0;
+          loop_count = 0;
+          timeout = 1;
+        }
+
+        sample_count = 0;
+      }
     }
-  }
+
   mouse_report.x = 0;
   mouse_report.y = 0;
   return mouse_report;
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
-  switch (keycode) {
-    case DRAG_MEDIA:
-      if (record->event.pressed) {
-        is_drag_media = true;
-        pointing_device_set_cpi(PLOOPY_DRAGMEDIA_DPI);
-      } else {
-        is_drag_media = false;
-        pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
+  if ( !(keycode == DRAG_MEDIA) && !(keycode == OMNI_WHEEL) ) return true;
+
+  bool mode_changed = false;
+
+  switch (mouse_mode) {
+    case eModeMedia:
+      if ((keycode == DRAG_MEDIA) && !record->event.pressed) {
+        if (max_length < NO_MOVE) tap_code(KC_MPLY);
+        mouse_mode = eModeNormal;
+        mode_changed = true;
       }
-      return false;
       break;
-    case OMNI_WHEEL:
-      if (record->event.pressed) {
-        is_omni_wheel = true;
-        pointing_device_set_cpi(PLOOPY_DRAGMEDIA_DPI);
-      } else {
-        is_omni_wheel = false;
-        pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
+    case eModeNumbers:
+      if ((keycode == OMNI_WHEEL) && !record->event.pressed) {
+        if (max_length < NO_MOVE) tap_code(KC_9);
+        max_length = 0;
+        mouse_mode = eModeNormal;
+        mode_changed = true;
       }
-      return false;
+      break;
+    default:
+      if (record->event.pressed) {
+        if (keycode == OMNI_WHEEL) {
+          mouse_mode = eModeNumbers;
+          mode_changed = true;
+        } else {
+          mouse_mode = eModeMedia;
+          mode_changed = true;
+        }
+      }
       break;
   }
-  return true;
+
+  if (mode_changed) {
+    if (mouse_mode != eModeNormal) {
+      pointing_device_set_cpi(PLOOPY_DRAGMEDIA_DPI);
+    } else {
+      pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
+    }
+
+    // if (debug_enable) dprintf("Mode: %d\n", (int)mouse_mode);
+  }
+  return false;
 }
 
 void matrix_power_up(void) { pointing_device_task(); }
