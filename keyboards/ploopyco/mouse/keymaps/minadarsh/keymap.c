@@ -18,19 +18,6 @@
 #include QMK_KEYBOARD_H
 #include <string.h>
 
-// definitions
-
-#ifndef PLOOPY_DRAGMEDIA_DPI
-#define PLOOPY_DRAGMEDIA_DPI 800
-#endif
-
-#define RECORD_SIZE 50
-#define TRAVEL_DISTANCE 400
-#define DIR_COUNT_NUMBER 8
-#define DIR_COUNT_MEDIA 4
-#define CLICK_TIMEOUT 1000
-#define NO_MOVE 300
-
 // enumerators
 
 enum extra_ploopy_keycodes {
@@ -50,7 +37,7 @@ uint32_t max_length = 0;
 // functions
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT(KC_NO, KC_BTN1, KC_BTN3, KC_BTN2, DPI_CONFIG, DRAG_MEDIA, OMNI_WHEEL, RESET)
+    [0] = LAYOUT(KC_BTN4, KC_BTN1, KC_BTN3, KC_BTN2, KC_BTN5, DRAG_MEDIA, OMNI_WHEEL, DPI_CONFIG)
     // defaults: most left, left, middle, right, most right, lower side, upper side, underneath scoll
 };
 
@@ -188,7 +175,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
   if (mode_changed) {
     if (mouse_mode != eModeNormal) {
-      pointing_device_set_cpi(PLOOPY_DRAGMEDIA_DPI);
+      pointing_device_set_cpi(PLOOPY_DRAG_GESTURE_DPI);
     } else {
       pointing_device_set_cpi(dpi_array[keyboard_config.dpi_config]);
     }
