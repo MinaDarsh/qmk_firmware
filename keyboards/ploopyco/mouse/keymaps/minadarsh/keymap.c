@@ -18,6 +18,12 @@
 #include QMK_KEYBOARD_H
 #include <string.h>
 
+// defines
+
+#ifndef ARRAY_SIZE
+#define ARRAY_SIZE( arg ) (sizeof(arg) / sizeof(arg[0]))
+#endif
+
 // enumerators
 
 enum extra_ploopy_keycodes {
@@ -29,6 +35,7 @@ typedef enum {
   eModeNormal,
   eModeNumbers,
   eModeMedia,
+  eModeVolume,
 } mouse_modus_enum;
 
 mouse_modus_enum mouse_mode = eModeNormal;
@@ -41,8 +48,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // defaults: most left, left, middle, right, most right, lower side, upper side, underneath scoll
 };
 
-const uint8_t numbers_direction_map[DIR_COUNT_NUMBER] = {KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8};
-const uint8_t media_direction_map[DIR_COUNT_MEDIA] = {KC_VOLU, KC_MNXT, KC_VOLD, KC_MPRV};
+const uint8_t numbers_direction_map[] = {KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8};
+const uint8_t media_direction_map[] = {KC_VOLU, KC_MNXT, KC_VOLD, KC_MPRV};
 
 void keyboard_post_init_user(void) {
   #ifdef CONSOLE_ENABLE
@@ -85,55 +92,71 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
 
   if (mouse_mode == eModeNormal) return mouse_report;
 
+  if (mouse_mode == eModeVolume) {
+    y_buff += mouse_report.y;
+    sample_count++;
+    if (sample_count >= RECORD_SIZE) {
+      if (y_buff > VOLUME_MIN_MOVE) {
+        tap_code(media_direction_map[2]);
+      } else if (y_buff < (VOLUME_MIN_MOVE * -1)) {
+        tap_code(media_direction_map[0]);
+      }
+      y_buff = 0;
+      sample_count = 0;
+    }
+    mouse_report.x = 0;
+    mouse_report.y = 0;
+    return mouse_report;
+  }
+
   if (timeout > 0) {
     timeout++;
     if (timeout >= CLICK_TIMEOUT) {
       timeout = 0;
-      }
-    } else {
-      x_buff += mouse_report.x;
-      y_buff += mouse_report.y;
-      sample_count++;
+    }
+  } else {
+    x_buff += mouse_report.x;
+    y_buff += mouse_report.y;
+    sample_count++;
 
-      if (sample_count >= RECORD_SIZE) {
-        loop_count++;
+    if (sample_count >= RECORD_SIZE) {
+      loop_count++;
 
-        uint32_t x_abs = abs(x_buff);
-        uint32_t y_abs = abs(y_buff);
-        uint32_t length = sqrt( (x_abs * x_abs) + (y_abs * y_abs) );
-        if (length > max_length) max_length = length;
+      uint32_t x_abs = abs(x_buff);
+      uint32_t y_abs = abs(y_buff);
+      uint32_t length = sqrt( (x_abs * x_abs) + (y_abs * y_abs) );
+      if (length > max_length) max_length = length;
 
-        // if (debug_enable) dprintf("x: %d y: %d\n", x_buff, y_buff);
-        // if (debug_enable) dprintf("len: %d\n", length);
+      // if (debug_enable) dprintf("x: %d y: %d\n", x_buff, y_buff);
+      // if (debug_enable) dprintf("len: %d\n", length);
 
-        if (length > TRAVEL_DISTANCE) {
-          uint8_t dir;
-          if (mouse_mode == eModeNumbers) {
-            dir = direction(x_buff, y_buff, DIR_COUNT_NUMBER);
-            // if (debug_enable) dprintf("Number %d\n", numbers_direction_map[dir]);
-            tap_code(numbers_direction_map[dir]);
-          } else {
-            dir = direction(x_buff, y_buff, DIR_COUNT_MEDIA);
-            // if (debug_enable) dprintf("Media %d\n", media_direction_map[dir]);
-            if ((dir == 0) || (dir == 2)) {
-              int mult = 50 - loop_count;
-              if (mult < 0) mult = 0;
-              for (int i = 0; i < mult; i++) {
-                tap_code(media_direction_map[dir]);
-              }
-            } else {
+      if (length > TRAVEL_DISTANCE) {
+        uint8_t dir;
+        if (mouse_mode == eModeNumbers) {
+          dir = direction(x_buff, y_buff, ARRAY_SIZE(numbers_direction_map));
+          // if (debug_enable) dprintf("Number %d\n", numbers_direction_map[dir]);
+          tap_code(numbers_direction_map[dir]);
+        } else {
+          dir = direction(x_buff, y_buff, ARRAY_SIZE(media_direction_map));
+          // if (debug_enable) dprintf("Media %d\n", media_direction_map[dir]);
+          if ((dir == 0) || (dir == 2)) {
+            for (int i = 0; i < VOLUME_START_MULT; i++) {
               tap_code(media_direction_map[dir]);
             }
+            mouse_mode = eModeVolume;
+          } else {
+            tap_code(media_direction_map[dir]);
           }
-          x_buff = 0;
-          y_buff = 0;
-          loop_count = 0;
-          timeout = 1;
         }
-
-        sample_count = 0;
+        x_buff = 0;
+        y_buff = 0;
+        loop_count = 0;
+        timeout = 1;
       }
+
+      sample_count = 0;
     }
+  }
 
   mouse_report.x = 0;
   mouse_report.y = 0;
@@ -147,8 +170,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
   switch (mouse_mode) {
     case eModeMedia:
+    case eModeVolume:
       if ((keycode == DRAG_MEDIA) && !record->event.pressed) {
         if (max_length < NO_MOVE) tap_code(KC_MPLY);
+        max_length = 0;
         mouse_mode = eModeNormal;
         mode_changed = true;
       }
