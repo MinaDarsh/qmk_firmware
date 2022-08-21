@@ -24,6 +24,7 @@
 #define PLOOPY_DRAG_GESTURE_DPI 800   // speed for when gesture buttons are held
 #define RECORD_SIZE 50                // how many samples will be used to determine movement speed
 #define TRAVEL_DISTANCE 400           // how much movement is needed for gestures
+#define CENTRE_DISTANCE 300           // size of zone to be considered as zero position (keep smaller than TRAVEL_DISTANCE!)
 #define CLICK_TIMEOUT 1000            // how many rounds to wait for being able to send keycode again (1 round = +/- 1ms)
 #define NO_MOVE 150                   // distance within which tap keycode is sent
 #define VOLUME_START_MULT 5           // when entering volume mode, boost by this amount

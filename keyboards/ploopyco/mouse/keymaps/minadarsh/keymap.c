@@ -77,8 +77,9 @@ int direction(int x, int y, int dir_count) {
 }
 
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-  static int x_buff, y_buff, sample_count, loop_count, timeout = 0;
+  static int x_buff, y_buff, sample_count, loop_count = 0;
   static mouse_modus_enum old_mode = eModeNormal;
+  static bool clicked = false;
   // if (debug_enable) dprintf("x: %d, y: %d\n", mouse_report.x, mouse_report.y);
 
   if (mouse_mode != old_mode) {
@@ -86,8 +87,8 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     y_buff = 0;
     sample_count = 0;
     loop_count = 0;
-    timeout = 0;
     old_mode = mouse_mode;
+    clicked = false;
   }
 
   if (mouse_mode == eModeNormal) return mouse_report;
@@ -109,27 +110,26 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     return mouse_report;
   }
 
-  if (timeout > 0) {
-    timeout++;
-    if (timeout >= CLICK_TIMEOUT) {
-      timeout = 0;
-    }
-  } else {
-    x_buff += mouse_report.x;
-    y_buff += mouse_report.y;
-    sample_count++;
+  x_buff += mouse_report.x;
+  y_buff += mouse_report.y;
+  sample_count++;
 
-    if (sample_count >= RECORD_SIZE) {
-      loop_count++;
+  if (sample_count >= RECORD_SIZE) {
+    loop_count++;
 
-      uint32_t x_abs = abs(x_buff);
-      uint32_t y_abs = abs(y_buff);
-      uint32_t length = sqrt( (x_abs * x_abs) + (y_abs * y_abs) );
-      if (length > max_length) max_length = length;
+    uint32_t x_abs = abs(x_buff);
+    uint32_t y_abs = abs(y_buff);
+    uint32_t length = sqrt( (x_abs * x_abs) + (y_abs * y_abs) );
+    if (length > max_length) max_length = length;
 
-      // if (debug_enable) dprintf("x: %d y: %d\n", x_buff, y_buff);
-      // if (debug_enable) dprintf("len: %d\n", length);
+    // if (debug_enable) dprintf("x: %d y: %d\n", x_buff, y_buff);
+    // if (debug_enable) dprintf("len: %d\n", length);
 
+    if (clicked) {
+      if (length < CENTRE_DISTANCE) {
+        clicked = false;
+      }
+    } else {
       if (length > TRAVEL_DISTANCE) {
         uint8_t dir;
         if (mouse_mode == eModeNumbers) {
@@ -148,14 +148,12 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
             tap_code(media_direction_map[dir]);
           }
         }
-        x_buff = 0;
-        y_buff = 0;
+        clicked = true;
         loop_count = 0;
-        timeout = 1;
       }
-
-      sample_count = 0;
     }
+
+    sample_count = 0;
   }
 
   mouse_report.x = 0;
