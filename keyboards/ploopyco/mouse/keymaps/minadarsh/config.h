@@ -29,6 +29,3 @@
 #define DIR_COUNT_MEDIA 4             // how many slices has the media wheel gesture
 #define CLICK_TIMEOUT 1000            // how many rounds to wait for being able to send keycode again (1 round = +/- 1ms)
 #define NO_MOVE 150                   // distance within which tap keycode is sent
-
-// media button next/previous hold after being triggered to prevent spamming
-#define BTN_TAP_TIMEOUT 500 // milliseconds

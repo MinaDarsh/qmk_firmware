@@ -72,6 +72,7 @@ int direction(int x, int y, int dir_count) {
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
   static int x_buff, y_buff, sample_count, loop_count, timeout = 0;
   static mouse_modus_enum old_mode = eModeNormal;
+  // if (debug_enable) dprintf("x: %d, y: %d\n", mouse_report.x, mouse_report.y);
 
   if (mouse_mode != old_mode) {
     x_buff = 0;
@@ -103,7 +104,7 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
         if (length > max_length) max_length = length;
 
         // if (debug_enable) dprintf("x: %d y: %d\n", x_buff, y_buff);
-        if (debug_enable) dprintf("len: %d\n", length);
+        // if (debug_enable) dprintf("len: %d\n", length);
 
         if (length > TRAVEL_DISTANCE) {
           uint8_t dir;
