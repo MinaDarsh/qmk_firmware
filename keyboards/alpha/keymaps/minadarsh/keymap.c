@@ -124,46 +124,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
  * │  !  │  @  │  #  │  $  │  %  │  ^  │  &  │  *  │  (  │  )  │
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
- * │Left │ Up  │Down │Right│     │     │  |  │  +  │  {  │  }  │
+ * │Left │ Up  │Down │Right│ Ins │ Del │  |  │  +  │  {  │  }  │
  * └──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┴──┬──┴──┬──┴──┬──┴──┬──┘
- *    │     │     │     │     │           │ keep these free!│
+ *    │Home │ End │Pg Up│Pg Dn│           │ keep these free!│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
  *  shifted characters and other outputs
  */
 	[_SYMBOL2] = LAYOUT(
 		KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
-    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR,
-             _______, _______, _______, _______, _______, _______, _______, _______
+    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,  KC_DEL,  KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR,
+             KC_HOME, KC_END,  KC_PGUP, KC_PGDN, _______, _______, _______, _______
   ),
 /*
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
- * │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │PScrn│ScLck│Pause│     │
+ * │ F1  │ F2  │ F3  │ F4  │ F5  │ F6  │PScrn│ScLck│Pause│ N/A │
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
- * │ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │     │     │     │     │
+ * │ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │ N/A │ N/A │ N/A │ N/A │
  * └──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┴──┬──┴──┬──┴──┬──┴──┬──┘
  *    │Prev │Vol -│Vol +│Next │   Play    │ keep these free!│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
  *  function and media keys
  */
 	[_SYMBOL3] = LAYOUT(
-		KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_PSCR, KC_SLCK, KC_PAUS, _______,
-    KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, _______, _______, _______,
-             KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, _______, _______, _______
+		KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_PSCR, KC_SLCK, KC_PAUS, XXXXXXX,
+    KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+             KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX
   ),
 /*
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
- * │RESET│     │     │     │     │     │     │     │     │     │
+ * │RESET│ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
- * │     │     │     │     │     │     │     │     │     │     │
+ * │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │
  * └──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┴──┬──┴──┬──┴──┬──┴──┬──┘
- *    │     │     │     │     │           │ keep these free!│
+ *    │ N/A │ N/A │ N/A │ N/A │    N/A    │ keep these free!│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
  *  keyboard settings
  */
 	[_SETTNGS] = LAYOUT(
-		RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-             _______, _______, _______, _______, _______, _______, _______, _______
+		RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
   )
 };
 
@@ -303,21 +303,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (is_idle) {
     is_idle = false;
   }
-  switch (keycode) {
-    case KC_SPC:
-      if ((get_mods() & MOD_BIT(KC_LSFT)) == MOD_BIT(KC_LSFT)) {
-        if (record->event.pressed) {
-          register_code(KC_SLSH);
-        } else {
-          unregister_code(KC_SLSH);
-        }
-        return false;
+  if (keycode == KC_SPC){
+    if ((get_mods() & MOD_BIT(KC_LSFT)) == MOD_BIT(KC_LSFT)) {
+      if (record->event.pressed) {
+        register_code(KC_SLSH);
       } else {
-        if (!record->event.pressed) {
-          unregister_code(KC_SLSH);
-        }
+        unregister_code(KC_SLSH);
+      }
+      return false;
+    } else {
+      if (!record->event.pressed) {
+        unregister_code(KC_SLSH);
       }
       return true;
+    }
   }
   return true;
 }
