@@ -244,20 +244,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (is_idle) {
     is_idle = false;
   }
-  if (keycode == KC_SPC){
-    if ((get_mods() & MOD_BIT(KC_LSFT)) == MOD_BIT(KC_LSFT)) {
-      if (record->event.pressed) {
-        register_code(KC_SLSH);
-      } else {
-        unregister_code(KC_SLSH);
-      }
-      return false;
-    } else {
-      if (!record->event.pressed) {
-        unregister_code(KC_SLSH);
-      }
-      return true;
-    }
+  if (keycode != KC_SPC) return true;
+
+  if ( !((get_mods() & MOD_BIT(KC_LSFT)) == MOD_BIT(KC_LSFT)) && !((get_mods() & MOD_BIT(KC_LCTL)) == MOD_BIT(KC_LCTL)) ) {
+    unregister_code(KC_SLSH);
+    return true;
   }
-  return true;
+  if (record->event.pressed) {
+    register_code(KC_SLSH);
+  } else {
+    unregister_code(KC_SLSH);
+  }
+  return false;
 }
