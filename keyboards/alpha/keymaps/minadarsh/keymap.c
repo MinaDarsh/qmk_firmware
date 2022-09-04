@@ -204,7 +204,7 @@ void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
     case 4:
       layer_move(_SETTNGS);
       break;
-    case 5:
+    default:
       layer_move(_COLEMAK);
   }
 }
