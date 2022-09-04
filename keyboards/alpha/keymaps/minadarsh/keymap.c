@@ -64,11 +64,8 @@ combo_t key_combos[] = {
 };
 
 bool td_was_held = false;
-bool td_is_on_sm2 = false;
-bool td_is_on_sm3 = false;
-bool td_is_on_set = false;
 static uint16_t timer;
-static bool is_idle;
+static bool is_idle = true;
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data);
 void layers_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -148,7 +145,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_SYMBOL3] = LAYOUT(
 		KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_PSCR, KC_SLCK, KC_PAUS, XXXXXXX,
     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-             KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX
+             KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, _______, _______, _______
   ),
 /*
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
@@ -163,23 +160,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_SETTNGS] = LAYOUT(
 		RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, _______
   )
 };
 
 void matrix_scan_user(void) {
-  if (!is_idle) {
-    if (timer_elapsed(timer) >= (uint16_t) LAYER_IDLE_TIMEOUT * 1000) {
-      is_idle = true;
-      if (layer_state_is(_SYMBOL1) || layer_state_is(_SYMBOL2) || layer_state_is(_SYMBOL3) || layer_state_is(_SETTNGS)) {
-        if (!td_was_held) {
-          layer_off(_SYMBOL1);
-          layer_off(_SYMBOL2);
-          layer_off(_SYMBOL3);
-          layer_off(_SETTNGS);
-          td_is_on_sm2 = false;
-          td_is_on_sm3 = false;
-          td_is_on_set = false;
+  if (!td_was_held) {
+    if (!is_idle) {
+      if (timer_elapsed(timer) >= (uint16_t) LAYER_IDLE_TIMEOUT * 1000) {
+        is_idle = true;
+        if (!layer_state_is(_COLEMAK)) {
+          layer_move(_COLEMAK);
         }
       }
     }
@@ -200,85 +191,35 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 }
 
 void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    if (!layer_state_is(_SYMBOL1)) {
-      layer_on(_SYMBOL1);
-      layer_off(_SYMBOL2);
-      layer_off(_SYMBOL3);
-      layer_off(_SETTNGS);
-    } else {
-      layer_off(_SYMBOL1);
-    }
-  }
-  else if (state->count == 2) {
-    if (!layer_state_is(_SYMBOL2) && td_is_on_sm2 == false) {
-      layer_off(_SYMBOL1);
-      layer_on(_SYMBOL2);
-    } else {
-      td_is_on_sm2 = false;
-    }
-  }
-  else if (state->count == 3) {
-    if (!layer_state_is(_SYMBOL3) && td_is_on_sm3 == false) {
-      layer_off(_SYMBOL2);
-      layer_on(_SYMBOL3);
-    } else {
-      td_is_on_sm3 = false;
-    }
-  }
-  else if (state->count == 4) {
-    if (!layer_state_is(_SETTNGS) && td_is_on_set == false) {
-      layer_off(_SYMBOL3);
-      layer_on(_SETTNGS);
-    } else {
-      td_is_on_set = false;
-    }
-  }
-  else if (state->count == 5) {
-    layer_off(_SETTNGS);
-    td_is_on_set = false;
+  switch (state->count) {
+    case 1:
+      layer_move(_SYMBOL1);
+      break;
+    case 2:
+      layer_move(_SYMBOL2);
+      break;
+    case 3:
+      layer_move(_SYMBOL3);
+      break;
+    case 4:
+      layer_move(_SETTNGS);
+      break;
+    case 5:
+      layer_move(_COLEMAK);
   }
 }
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
   if (state->pressed) {
     td_was_held = true;
-    td_is_on_sm2 = false;
-    td_is_on_sm3 = false;
-    td_is_on_set = false;
-  } else {
-    td_was_held = false; // not sure if necessary
-    if (state->count == 1 && layer_state_is(_SYMBOL1)) {
-      td_is_on_sm2 = false;
-      td_is_on_sm3 = false;
-      td_is_on_set = false;
-    }
-    else if (state->count == 2 && layer_state_is(_SYMBOL2)) {
-      td_is_on_sm2 = true;
-      td_is_on_sm3 = false;
-      td_is_on_set = false;
-    }
-    else if (state->count == 3 && layer_state_is(_SYMBOL3)) {
-      td_is_on_sm2 = false;
-      td_is_on_sm3 = true;
-      td_is_on_set = false;
-    }
-    else if (state->count == 4 && layer_state_is(_SETTNGS)) {
-      td_is_on_sm2 = false;
-      td_is_on_sm3 = false;
-      td_is_on_set = true;
-    }
   }
 }
 
 void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
   if (td_was_held == true) {
-    layer_off(_SYMBOL1);
-    layer_off(_SYMBOL2);
-    layer_off(_SYMBOL3);
-    layer_off(_SETTNGS);
+    layer_move(_COLEMAK);
+    td_was_held = false;
   }
-  td_was_held = false;
 }
 
 qk_tap_dance_action_t tap_dance_actions[] = {
