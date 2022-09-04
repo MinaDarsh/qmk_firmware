@@ -64,6 +64,7 @@ combo_t key_combos[] = {
 };
 
 bool td_was_held = false;
+int old_state = 0;
 static uint16_t timer;
 static bool is_idle = true;
 
@@ -171,6 +172,7 @@ void matrix_scan_user(void) {
         is_idle = true;
         if (!layer_state_is(_COLEMAK)) {
           layer_move(_COLEMAK);
+          old_state = 0;
         }
       }
     }
@@ -206,18 +208,25 @@ void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
       break;
     default:
       layer_move(_COLEMAK);
+      old_state = 0;
   }
 }
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data) {
   if (state->pressed) {
     td_was_held = true;
+  } else if (state->count == old_state) {
+    layer_move(_COLEMAK);
+    old_state = 0;
+  } else {
+    old_state = state->count;
   }
 }
 
 void layers_reset(qk_tap_dance_state_t *state, void *user_data) {
   if (td_was_held == true) {
     layer_move(_COLEMAK);
+    old_state = 0;
     td_was_held = false;
   }
 }
