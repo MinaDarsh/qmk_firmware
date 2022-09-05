@@ -5,11 +5,11 @@ enum alpha_layers {
   _SYMBOL1,
   _SYMBOL2,
   _SYMBOL3,
-  _SETTNGS
 };
 
 // defined names for shorter keycode names in the keymap array
 #define MC_CTLX MT(MOD_LCTL, KC_X)
+#define MC_CTLZ MT(MOD_RCTL, KC_Z)
 #define MC_GUIC MT(MOD_LGUI, KC_C)
 #define MC_ALTD MT(MOD_LALT, KC_D)
 #define MC_SFTA MT(MOD_LSFT, KC_A)
@@ -37,17 +37,17 @@ enum combo_events {
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t PROGMEM dot_combo[] = {KC_H, KC_Z, COMBO_END};
+const uint16_t PROGMEM dot_combo[] = {KC_H, MC_CTLZ, COMBO_END};
 const uint16_t PROGMEM com_combo[] = {KC_M, KC_H, COMBO_END};
 const uint16_t PROGMEM ent_combo[] = {KC_I, MC_SFTO, KC_E, COMBO_END};
 const uint16_t PROGMEM bsp_combo[] = {MC_SFTA, KC_R, KC_S, COMBO_END};
-const uint16_t PROGMEM slh_combo[] = {KC_M, KC_Z, COMBO_END};
-const uint16_t PROGMEM lyr_combo[] = {KC_M, KC_H, KC_Z, COMBO_END};
+const uint16_t PROGMEM slh_combo[] = {KC_M, MC_CTLZ, COMBO_END};
+const uint16_t PROGMEM lyr_combo[] = {KC_M, KC_H, MC_CTLZ, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM esc_combo[] = {KC_Q, KC_W, KC_F, COMBO_END};
 const uint16_t PROGMEM grv_combo[] = {KC_1, KC_2, COMBO_END};
 const uint16_t PROGMEM til_combo[] = {KC_EXLM, KC_AT, COMBO_END};
-const uint16_t PROGMEM rst_combo[] = {KC_Q, MC_CTLX, MC_SFTO, KC_Z, COMBO_END};
+const uint16_t PROGMEM rst_combo[] = {KC_Q, MC_CTLX, MC_SFTO, MC_CTLZ, COMBO_END};
 
 combo_t key_combos[] = {
   [COM_DOT] = COMBO(dot_combo, KC_DOT),
@@ -65,8 +65,8 @@ combo_t key_combos[] = {
 
 bool td_was_held = false;
 int old_state = 0;
+bool is_idle = true;
 static uint16_t timer;
-static bool is_idle = true;
 
 void layers_finished(qk_tap_dance_state_t *state, void *user_data);
 void layers_reset(qk_tap_dance_state_t *state, void *user_data);
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
  * │  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  │
  * └──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┴──┬──┴──┬──┴──┬──┴──┬──┘
- *    │X/Ctl│C/Alt│  D  │  V  │    Spc    │M/GUI│  H  │  Z  │
+ *    │X/Ctl│C/Alt│D/GUI│  V  │    Spc    │  M  │  H  │Z/CTL│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
  *  main layer
  *
@@ -87,11 +87,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *    - Q, W and F form Escape
  *    - A, R and S form Backspace
  *    - E, I and O form Enter
- *    - M/GUI and H form Comma
- *    - H and Z form Dot
- *    - M/GUI and Z form Forward Slash
- *    - M/GUI, H and Z form the Special Layer Key
- *    - Q, X, Z and O to enter bootloader mode
+ *    - M and H form Comma
+ *    - H and Z/CTL form Dot
+ *    - M and Z/CTL form Forward Slash
+ *    - M, H and Z/CTL form the Special Layer Key
+ *    - Q, X, Z/CTL and O to enter bootloader mode
  *
  *  keys with a '/' are Mod-Tap keys, key before '/' is on tap, after is on hold
  *  keys with parenthesis are Tap-Dance keys (double-tap for second key)
@@ -101,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_COLEMAK] = LAYOUT(
 		KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,    KC_J,    KC_L,    KC_U,    KC_Y,    TD(CQT),
 		MC_SFTA, KC_R,    KC_S,    KC_T,    KC_G,    KC_K,    KC_N,    KC_E,    KC_I,    MC_SFTO,
-	           MC_CTLX, MC_GUIC, MC_ALTD, KC_V,    KC_SPC,  KC_M,    KC_H,    KC_Z
+	           MC_CTLX, MC_GUIC, MC_ALTD, KC_V,    KC_SPC,  KC_M,    KC_H,    MC_CTLZ
   ),
 /*
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
@@ -112,6 +112,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *    │Home │ End │Pg Up│Pg Dn│           │ keep these free!│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
  *  numbers and unshifted characters
+ *  
+ *  one combo on this layer:
+ *    - 1 and 2 form Grave
  */
 	[_SYMBOL1] = LAYOUT(
 		KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
@@ -127,6 +130,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *    │Home │ End │Pg Up│Pg Dn│           │ keep these free!│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
  *  shifted characters and other outputs
+ *  
+ *  one combo on this layer:
+ *    - ! and @ form Tilde
  */
 	[_SYMBOL2] = LAYOUT(
 		KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
@@ -147,33 +153,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_PSCR, KC_SLCK, KC_PAUS, XXXXXXX,
     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
              KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, _______, _______, _______
-  ),
-/*
- * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
- * │RESET│ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │
- * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
- * │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │ N/A │
- * └──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┴──┬──┴──┬──┴──┬──┴──┬──┘
- *    │ N/A │ N/A │ N/A │ N/A │    N/A    │ keep these free!│
- *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
- *  keyboard settings
- */
-	[_SETTNGS] = LAYOUT(
-		RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-             XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______, _______
   )
 };
 
 void matrix_scan_user(void) {
-  if (!td_was_held) {
-    if (!is_idle) {
-      if (timer_elapsed(timer) >= (uint16_t) LAYER_IDLE_TIMEOUT * 1000) {
-        is_idle = true;
-        if (!layer_state_is(_COLEMAK)) {
-          layer_move(_COLEMAK);
-          old_state = 0;
-        }
+  if (!is_idle && !td_was_held) {
+    if (timer_elapsed(timer) >= (uint16_t) LAYER_IDLE_TIMEOUT * 1000) {
+      is_idle = true;
+      if (!layer_state_is(_COLEMAK)) {
+        layer_move(_COLEMAK);
+        old_state = 0;
       }
     }
   }
@@ -202,9 +191,6 @@ void layers_per_tap(qk_tap_dance_state_t *state, void *user_data) {
       break;
     case 3:
       layer_move(_SYMBOL3);
-      break;
-    case 4:
-      layer_move(_SETTNGS);
       break;
     default:
       layer_move(_COLEMAK);
