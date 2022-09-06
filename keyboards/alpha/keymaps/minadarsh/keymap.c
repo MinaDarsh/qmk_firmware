@@ -66,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
  * │  Q  │  W  │  F  │  P  │  B  │  J  │  L  │  U  │  Y  │ '(;)│
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
- * │  A  │  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │  O  │
+ * │A/LSF│  R  │  S  │  T  │  G  │  K  │  N  │  E  │  I  │O/RSF│
  * └──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┴──┬──┴──┬──┴──┬──┴──┬──┘
  *    │X/Ctl│C/Alt│D/GUI│V/RSE│    Spc    │M/LWR│  H  │Z/CTL│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
  * │Left │ Up  │Down │Right│ Ins │ Del │  \  │  =  │  [  │  ]  │
  * └──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┴──┬──┴──┬──┴──┬──┴──┬──┘
- *    │Home │ End │     │!keep│           │free!│Pg Up│Pg Dn│
+ *    │Home │ End │     │V/RSE│           │M/LWR│Pg Up│Pg Dn│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
  *  numbers and unshifted characters
  *  
@@ -108,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_RAISE] = LAYOUT(
 		KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,  KC_DEL,  KC_BSLS, KC_EQL,  KC_LBRC, KC_RBRC,
-             KC_HOME, KC_END,  _______, _______, _______, _______, KC_PGUP, KC_PGDN
+             KC_HOME, KC_END,  XXXXXXX, _______, _______, _______, KC_PGUP, KC_PGDN
   ),
 /*
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
@@ -116,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
  * │Left │ Up  │Down │Right│ Ins │ Del │  |  │  +  │  {  │  }  │
  * └──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┴──┬──┴──┬──┴──┬──┴──┬──┘
- *    │Home │ End │     │!keep│           │free!│Pg Up│Pg Dn│
+ *    │Home │ End │     │V/RSE│           │M/LWR│Pg Up│Pg Dn│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
  *  shifted characters and other outputs
  *  
@@ -126,7 +126,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_LOWER] = LAYOUT(
 		KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
     KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_INS,  KC_DEL,  KC_PIPE, KC_PLUS, KC_LCBR, KC_RCBR,
-             KC_HOME, KC_END, _______, _______, _______, _______,  KC_PGUP, KC_PGDN
+             KC_HOME, KC_END,  XXXXXXX, _______, _______, _______, KC_PGUP, KC_PGDN
   ),
 /*
  * ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
@@ -134,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
  * │ F7  │ F8  │ F9  │ F10 │ F11 │ F12 │ N/A │ N/A │ N/A │ N/A │
  * └──┬──┴──┬──┴──┬──┴──┬──┴──┬──┴─────┴──┬──┴──┬──┴──┬──┴──┬──┘
- *    │Prev │Next │Play │!keep│           │free!│Vol -│Vol +│
+ *    │Prev │Next │Play │V/RSE│           │M/LWR│Vol -│Vol +│
  *    └─────┴─────┴─────┴─────┴───────────┴─────┴─────┴─────┘
  *  function and media keys
  */
@@ -155,7 +155,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case MC_SFTA:
         case MC_SFTO:
-            return 125;
+            return 150;
         default:
             return TAPPING_TERM;
     }
